@@ -5,4 +5,6 @@ import io.github.seonrizee.scheduler.dto.response.UserDetailResponse;
 
 public interface UserService {
     UserDetailResponse registerUser(UserCreateRequest requestDto);
+
+    UserDetailResponse getUserProfile(Long userId);
 }

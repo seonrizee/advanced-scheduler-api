@@ -6,6 +6,8 @@ import io.github.seonrizee.scheduler.dto.response.UserDetailResponse;
 import io.github.seonrizee.scheduler.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,4 +28,12 @@ public class UserController {
         UserDetailResponse responseDto = userService.registerUser(requestDto);
         return ApiResponse.created(responseDto);
     }
+
+    @GetMapping("/{userId}")
+    public ApiResponse<UserDetailResponse> getUserProfile(@PathVariable Long userId) {
+
+        UserDetailResponse responseDto = userService.getUserProfile(userId);
+        return ApiResponse.ok(responseDto);
+    }
+
 }
