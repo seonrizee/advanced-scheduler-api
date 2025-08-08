@@ -3,6 +3,7 @@ package io.github.seonrizee.scheduler.controller;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.UserCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.UserDetailResponse;
+import io.github.seonrizee.scheduler.dto.response.UserListResponse;
 import io.github.seonrizee.scheduler.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,11 +30,16 @@ public class UserController {
         return ApiResponse.created(responseDto);
     }
 
+    @GetMapping
+    public ApiResponse<UserListResponse> getUsers() {
+        UserListResponse responseDto = userService.getAllUsers();
+        return ApiResponse.ok(responseDto);
+    }
+
     @GetMapping("/{userId}")
     public ApiResponse<UserDetailResponse> getUserProfile(@PathVariable Long userId) {
 
         UserDetailResponse responseDto = userService.getUserProfile(userId);
         return ApiResponse.ok(responseDto);
     }
-
 }
