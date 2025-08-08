@@ -41,4 +41,10 @@ public class UserServiceImpl implements UserService {
         existingUser.updateProfile(requestDto.getUsername(), requestDto.getEmail());
         return userMapper.toDto(existingUser);
     }
+
+    @Override
+    public void deleteUser(Long userId) {
+        User existingUser = userRepository.findByIdOrThrow(userId);
+        userRepository.delete(existingUser);
+    }
 }

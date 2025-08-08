@@ -13,4 +13,6 @@ public interface UserService {
     UserListResponse getAllUsers();
 
     UserDetailResponse updateUserProfile(Long userId, UserUpdateRequest requestDto);
+
+    void deleteUser(Long userId);
 }

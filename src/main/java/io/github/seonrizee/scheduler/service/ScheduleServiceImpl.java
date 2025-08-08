@@ -23,23 +23,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto) {
-
         Schedule savedSchedule = scheduleRepository.save(scheduleMapper.toEntity(requestDto));
-
         return scheduleMapper.toDto(savedSchedule);
     }
 
     @Override
     public ScheduleDetailResponse findScheduleById(Long scheduleId) {
-
         Schedule schedule = scheduleRepository.findByIdOrThrow(scheduleId);
-
         return scheduleMapper.toDto(schedule);
     }
 
     @Override
     public ScheduleListResponse findAllSchedules() {
-
         List<Schedule> schedules = scheduleRepository.findAll();
         return scheduleMapper.toDto(schedules);
     }
@@ -47,18 +42,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto) {
-
         Schedule existingSchedule = scheduleRepository.findByIdOrThrow(scheduleId);
         existingSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
-
         return scheduleMapper.toDto(existingSchedule);
     }
 
     @Override
     @Transactional
     public void deleteSchedule(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findByIdOrThrow(scheduleId);
-
-        scheduleRepository.delete(schedule);
+        Schedule existingSchedule = scheduleRepository.findByIdOrThrow(scheduleId);
+        scheduleRepository.delete(existingSchedule);
     }
 }
