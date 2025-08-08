@@ -37,4 +37,9 @@ public class Schedule extends BaseDateTimeEntity {
         this.description = description;
         this.username = username;
     }
+
+    public void updateDetail(String summary, String description) {
+        this.summary = summary;
+        this.description = description;
+    }
 }

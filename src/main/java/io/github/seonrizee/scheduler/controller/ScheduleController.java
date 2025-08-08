@@ -2,12 +2,14 @@ package io.github.seonrizee.scheduler.controller;
 
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
+import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +44,15 @@ public class ScheduleController {
     public ResponseEntity<ApiResponse<ScheduleListResponse>> getSchedules() {
 
         ScheduleListResponse responseDto = scheduleService.findAllSchedules();
+        return ApiResponse.ok(responseDto);
+    }
+
+    @PatchMapping("/{scheduleId}")
+    public ResponseEntity<ApiResponse<ScheduleDetailResponse>> updateSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody ScheduleUpdateRequest requestDto) {
+
+        ScheduleDetailResponse responseDto = scheduleService.updateSchedule(scheduleId, requestDto);
         return ApiResponse.ok(responseDto);
     }
 }
