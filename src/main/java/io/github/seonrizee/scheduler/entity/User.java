@@ -30,4 +30,9 @@ public class User extends BaseDateTimeEntity {
         this.username = username;
         this.email = email;
     }
+
+    public void updateProfile(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
 }

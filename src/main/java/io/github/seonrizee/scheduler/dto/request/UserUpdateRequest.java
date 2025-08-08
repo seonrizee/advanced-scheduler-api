@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserCreateRequest {
+public class UserUpdateRequest {
 
     private final String username;
     private final String email;

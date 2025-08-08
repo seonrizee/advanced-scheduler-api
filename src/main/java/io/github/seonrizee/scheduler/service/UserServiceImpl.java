@@ -1,6 +1,7 @@
 package io.github.seonrizee.scheduler.service;
 
 import io.github.seonrizee.scheduler.dto.request.UserCreateRequest;
+import io.github.seonrizee.scheduler.dto.request.UserUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.UserDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.UserListResponse;
 import io.github.seonrizee.scheduler.entity.User;
@@ -32,5 +33,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserListResponse getAllUsers() {
         return userMapper.toDto(userRepository.findAll());
+    }
+
+    @Override
+    public UserDetailResponse updateUserProfile(Long userId, UserUpdateRequest requestDto) {
+        User existingUser = userRepository.findByIdOrThrow(userId);
+        existingUser.updateProfile(requestDto.getUsername(), requestDto.getEmail());
+        return userMapper.toDto(existingUser);
     }
 }
