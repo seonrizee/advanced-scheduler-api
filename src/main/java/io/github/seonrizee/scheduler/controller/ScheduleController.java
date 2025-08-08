@@ -35,7 +35,7 @@ public class ScheduleController {
 
         ScheduleDetailResponse responseDto = scheduleService.findScheduleById(scheduleId);
 
-        return ApiResponse.created(responseDto);
+        return ApiResponse.ok(responseDto);
     }
 
     @GetMapping
