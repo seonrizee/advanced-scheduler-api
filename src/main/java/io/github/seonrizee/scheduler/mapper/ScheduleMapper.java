@@ -4,16 +4,17 @@ import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
+import io.github.seonrizee.scheduler.entity.User;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduleMapper {
-    public Schedule toEntity(ScheduleCreateRequest requestDto) {
+    public Schedule toEntity(ScheduleCreateRequest requestDto, User user) {
         return Schedule.builder()
                 .summary(requestDto.getSummary())
                 .description(requestDto.getDescription())
-                .username(requestDto.getUsername())
+                .user(user)
                 .build();
     }
 
@@ -22,7 +23,7 @@ public class ScheduleMapper {
                 schedule.getId(),
                 schedule.getSummary(),
                 schedule.getDescription(),
-                schedule.getUsername(),
+                schedule.getUser().getUsername(),
                 schedule.getCreatedAt(),
                 schedule.getUpdatedAt());
     }

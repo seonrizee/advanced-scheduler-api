@@ -5,8 +5,10 @@ import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
+import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
+import io.github.seonrizee.scheduler.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleMapper scheduleMapper;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto) {
-        Schedule savedSchedule = scheduleRepository.save(scheduleMapper.toEntity(requestDto));
+        Long userId = requestDto.getUserId();
+        User user = userRepository.findByIdOrThrow(userId);
+
+        Schedule savedSchedule = scheduleRepository.save(scheduleMapper.toEntity(requestDto, user));
         return scheduleMapper.toDto(savedSchedule);
     }
 

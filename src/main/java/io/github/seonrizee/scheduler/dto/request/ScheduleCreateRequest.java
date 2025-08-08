@@ -9,5 +9,5 @@ public class ScheduleCreateRequest {
 
     private final String summary;
     private final String description;
-    private final String username;
+    private final Long userId;
 }

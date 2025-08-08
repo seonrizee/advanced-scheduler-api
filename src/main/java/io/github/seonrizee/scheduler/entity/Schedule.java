@@ -5,7 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,15 +29,15 @@ public class Schedule extends BaseDateTimeEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false)
-    private String username;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Builder
-    public Schedule(String summary, String description, String username) {
+    public Schedule(String summary, String description, User user) {
         this.summary = summary;
         this.description = description;
-        this.username = username;
+        this.user = user;
     }
 
     public void updateDetail(String summary, String description) {
