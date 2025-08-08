@@ -1,14 +1,14 @@
 package io.github.seonrizee.scheduler.service;
 
-import io.github.seonrizee.scheduler.common.code.ErrorCode;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
-import io.github.seonrizee.scheduler.exception.CustomBusinessException;
+import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
+import io.github.seonrizee.scheduler.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,27 +21,26 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleMapper scheduleMapper;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto) {
+        Long userId = requestDto.getUserId();
+        User user = userRepository.findByIdOrThrow(userId);
 
-        Schedule savedSchedule = scheduleRepository.save(scheduleMapper.toEntity(requestDto));
-
+        Schedule savedSchedule = scheduleRepository.save(scheduleMapper.toEntity(requestDto, user));
         return scheduleMapper.toDto(savedSchedule);
     }
 
     @Override
     public ScheduleDetailResponse findScheduleById(Long scheduleId) {
-
-        Schedule schedule = findScheduleByIdOrThrow(scheduleId);
-
+        Schedule schedule = scheduleRepository.findByIdOrThrow(scheduleId);
         return scheduleMapper.toDto(schedule);
     }
 
     @Override
     public ScheduleListResponse findAllSchedules() {
-
         List<Schedule> schedules = scheduleRepository.findAll();
         return scheduleMapper.toDto(schedules);
     }
@@ -49,23 +48,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto) {
-
-        Schedule existingSchedule = findScheduleByIdOrThrow(scheduleId);
+        Schedule existingSchedule = scheduleRepository.findByIdOrThrow(scheduleId);
         existingSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
-
         return scheduleMapper.toDto(existingSchedule);
     }
 
     @Override
     @Transactional
     public void deleteSchedule(Long scheduleId) {
-        Schedule schedule = findScheduleByIdOrThrow(scheduleId);
-
-        scheduleRepository.delete(schedule);
-    }
-
-    private Schedule findScheduleByIdOrThrow(Long scheduleId) {
-        return scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new CustomBusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
+        Schedule existingSchedule = scheduleRepository.findByIdOrThrow(scheduleId);
+        scheduleRepository.delete(existingSchedule);
     }
 }

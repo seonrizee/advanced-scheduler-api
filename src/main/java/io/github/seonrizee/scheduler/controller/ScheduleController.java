@@ -7,7 +7,7 @@ import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,7 +26,8 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<ScheduleDetailResponse>> createSchedule(
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<ScheduleDetailResponse> createSchedule(
             @RequestBody ScheduleCreateRequest requestDto) {
 
         ScheduleDetailResponse responseDto = scheduleService.createSchedule(requestDto);
@@ -34,7 +36,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/{scheduleId}")
-    public ResponseEntity<ApiResponse<ScheduleDetailResponse>> getSchedule(@PathVariable Long scheduleId) {
+    public ApiResponse<ScheduleDetailResponse> getSchedule(@PathVariable Long scheduleId) {
 
         ScheduleDetailResponse responseDto = scheduleService.findScheduleById(scheduleId);
 
@@ -42,14 +44,14 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<ScheduleListResponse>> getSchedules() {
+    public ApiResponse<ScheduleListResponse> getSchedules() {
 
         ScheduleListResponse responseDto = scheduleService.findAllSchedules();
         return ApiResponse.ok(responseDto);
     }
 
     @PatchMapping("/{scheduleId}")
-    public ResponseEntity<ApiResponse<ScheduleDetailResponse>> updateSchedule(
+    public ApiResponse<ScheduleDetailResponse> updateSchedule(
             @PathVariable Long scheduleId,
             @RequestBody ScheduleUpdateRequest requestDto) {
 
@@ -58,7 +60,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<ApiResponse<Void>> deleteSchedule(@PathVariable Long scheduleId) {
+    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId) {
 
         scheduleService.deleteSchedule(scheduleId);
         return ApiResponse.ok();

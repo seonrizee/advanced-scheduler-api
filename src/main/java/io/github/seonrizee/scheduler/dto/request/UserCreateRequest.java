@@ -5,9 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ScheduleCreateRequest {
+public class UserCreateRequest {
 
-    private final String summary;
-    private final String description;
-    private final Long userId;
+    private final String username;
+    private final String email;
 }
