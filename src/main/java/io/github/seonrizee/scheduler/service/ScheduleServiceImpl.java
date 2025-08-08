@@ -12,15 +12,18 @@ import io.github.seonrizee.scheduler.repository.ScheduleRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleMapper scheduleMapper;
 
     @Override
+    @Transactional
     public ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto) {
 
         Schedule savedSchedule = scheduleRepository.save(scheduleMapper.toEntity(requestDto));
@@ -51,6 +54,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         existingSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
 
         return scheduleMapper.toDto(existingSchedule);
+    }
+
+    @Override
+    @Transactional
+    public void deleteSchedule(Long scheduleId) {
+        Schedule schedule = findScheduleByIdOrThrow(scheduleId);
+
+        scheduleRepository.delete(schedule);
     }
 
     private Schedule findScheduleByIdOrThrow(Long scheduleId) {

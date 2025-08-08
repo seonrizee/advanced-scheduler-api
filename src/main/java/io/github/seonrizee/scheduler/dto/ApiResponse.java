@@ -23,8 +23,12 @@ public class ApiResponse<T> {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ApiResponse<>(SuccessCode.CREATED.getCode(), SuccessCode.CREATED.getMessage(), responseDto));
     }
-    
+
     public static <T> ResponseEntity<ApiResponse<T>> ok(T responseDto) {
         return ResponseEntity.ok(new ApiResponse<>(SuccessCode.OK.getCode(), SuccessCode.OK.getMessage(), responseDto));
+    }
+
+    public static ResponseEntity<ApiResponse<Void>> ok() {
+        return ResponseEntity.ok(new ApiResponse<>(SuccessCode.OK.getCode(), SuccessCode.OK.getMessage(), null));
     }
 }

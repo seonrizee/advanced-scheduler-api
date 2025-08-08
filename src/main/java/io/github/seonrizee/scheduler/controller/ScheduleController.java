@@ -8,6 +8,7 @@ import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,5 +55,12 @@ public class ScheduleController {
 
         ScheduleDetailResponse responseDto = scheduleService.updateSchedule(scheduleId, requestDto);
         return ApiResponse.ok(responseDto);
+    }
+
+    @DeleteMapping("/{scheduleId}")
+    public ResponseEntity<ApiResponse<Void>> deleteSchedule(@PathVariable Long scheduleId) {
+
+        scheduleService.deleteSchedule(scheduleId);
+        return ApiResponse.ok();
     }
 }
