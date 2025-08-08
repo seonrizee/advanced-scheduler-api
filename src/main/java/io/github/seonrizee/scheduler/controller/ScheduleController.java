@@ -3,6 +3,7 @@ package io.github.seonrizee.scheduler.controller;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
+import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,14 @@ public class ScheduleController {
     public ResponseEntity<ApiResponse<ScheduleDetailResponse>> getSchedule(@PathVariable Long scheduleId) {
 
         ScheduleDetailResponse responseDto = scheduleService.findScheduleById(scheduleId);
-        
+
         return ApiResponse.created(responseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<ScheduleListResponse>> getSchedules() {
+
+        ScheduleListResponse responseDto = scheduleService.findAllSchedules();
+        return ApiResponse.ok(responseDto);
     }
 }

@@ -3,10 +3,12 @@ package io.github.seonrizee.scheduler.service;
 import io.github.seonrizee.scheduler.common.code.ErrorCode;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
+import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,12 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .orElseThrow(() -> new CustomBusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         return scheduleMapper.toDto(schedule);
+    }
+
+    @Override
+    public ScheduleListResponse findAllSchedules() {
+
+        List<Schedule> schedules = scheduleRepository.findAll();
+        return scheduleMapper.toDto(schedules);
     }
 }
