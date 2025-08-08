@@ -25,10 +25,14 @@ public class User extends BaseDateTimeEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @Builder
-    public User(String username, String email) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
+        this.password = password;
     }
 
     public void updateProfile(String username, String email) {

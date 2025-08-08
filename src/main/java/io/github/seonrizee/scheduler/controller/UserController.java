@@ -1,10 +1,10 @@
 package io.github.seonrizee.scheduler.controller;
 
 import io.github.seonrizee.scheduler.dto.ApiResponse;
-import io.github.seonrizee.scheduler.dto.request.UserCreateRequest;
+import io.github.seonrizee.scheduler.dto.request.UserRegisterRequest;
 import io.github.seonrizee.scheduler.dto.request.UserUpdateRequest;
-import io.github.seonrizee.scheduler.dto.response.UserDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.UserListResponse;
+import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 import io.github.seonrizee.scheduler.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,9 +27,9 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<UserDetailResponse> registerUser(@RequestBody UserCreateRequest requestDto) {
+    public ApiResponse<UserProfileResponse> registerUser(@RequestBody UserRegisterRequest requestDto) {
 
-        UserDetailResponse responseDto = userService.registerUser(requestDto);
+        UserProfileResponse responseDto = userService.registerUser(requestDto);
         return ApiResponse.created(responseDto);
     }
 
@@ -40,16 +40,16 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ApiResponse<UserDetailResponse> getUserProfile(@PathVariable Long userId) {
+    public ApiResponse<UserProfileResponse> getUserProfile(@PathVariable Long userId) {
 
-        UserDetailResponse responseDto = userService.getUserProfile(userId);
+        UserProfileResponse responseDto = userService.getUserProfile(userId);
         return ApiResponse.ok(responseDto);
     }
 
     @PatchMapping("/{userId}")
-    public ApiResponse<UserDetailResponse> updateUserProfile(@PathVariable Long userId,
-                                                             @RequestBody UserUpdateRequest requestDto) {
-        UserDetailResponse responseDto = userService.updateUserProfile(userId, requestDto);
+    public ApiResponse<UserProfileResponse> updateUserProfile(@PathVariable Long userId,
+                                                              @RequestBody UserUpdateRequest requestDto) {
+        UserProfileResponse responseDto = userService.updateUserProfile(userId, requestDto);
         return ApiResponse.ok(responseDto);
     }
 

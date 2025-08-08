@@ -1,23 +1,24 @@
 package io.github.seonrizee.scheduler.mapper;
 
-import io.github.seonrizee.scheduler.dto.request.UserCreateRequest;
-import io.github.seonrizee.scheduler.dto.response.UserDetailResponse;
+import io.github.seonrizee.scheduler.dto.request.UserRegisterRequest;
 import io.github.seonrizee.scheduler.dto.response.UserListResponse;
+import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 import io.github.seonrizee.scheduler.entity.User;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
-    public User toEntity(UserCreateRequest requestDto) {
+    public User toEntity(UserRegisterRequest requestDto) {
         return User.builder()
                 .username(requestDto.getUsername())
                 .email(requestDto.getEmail())
+                .password(requestDto.getPassword())
                 .build();
     }
 
-    public UserDetailResponse toDto(User user) {
-        return new UserDetailResponse(
+    public UserProfileResponse toDto(User user) {
+        return new UserProfileResponse(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
