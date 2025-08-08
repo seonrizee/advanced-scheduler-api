@@ -5,12 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum SuccessCode {
+public enum ErrorCode {
 
-    // Success-Common
-    OK("SC-200", "요청이 성공적으로 처리되었습니다."),
-    CREATED("SC-201", "리소스가 성공적으로 생성되었습니다.");
-
+    // Error-Schedule
+    SCHEDULE_NOT_FOUND("ES-001", "일정이 존재하지 않습니다.");
+    
     private final String code;
     private final String message;
 }

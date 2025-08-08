@@ -6,6 +6,8 @@ import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,14 @@ public class ScheduleController {
 
         ScheduleDetailResponse responseDto = scheduleService.createSchedule(requestDto);
 
+        return ApiResponse.created(responseDto);
+    }
+
+    @GetMapping("/{scheduleId}")
+    public ResponseEntity<ApiResponse<ScheduleDetailResponse>> getSchedule(@PathVariable Long scheduleId) {
+
+        ScheduleDetailResponse responseDto = scheduleService.findScheduleById(scheduleId);
+        
         return ApiResponse.created(responseDto);
     }
 }
