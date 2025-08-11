@@ -35,4 +35,10 @@ public class CommentController {
         CommentListResponse responseDto = commentService.getCommentsWithSchedule(scheduleId);
         return ApiResponse.ok(responseDto);
     }
+
+    @GetMapping("/comments/{commentId}")
+    public ApiResponse<CommentDetailResponse> getComment(@PathVariable Long commentId) {
+        CommentDetailResponse responseDto = commentService.getComment(commentId);
+        return ApiResponse.ok(responseDto);
+    }
 }

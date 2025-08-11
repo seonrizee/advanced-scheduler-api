@@ -9,7 +9,7 @@ public interface CommentService {
 
     CommentDetailResponse createComment(Long scheduleId, Long userId, CommentCreateRequest requestDto);
 
-    CommentDetailResponse findCommentById(Long commentId);
+    CommentDetailResponse getComment(Long commentId);
 
     CommentListResponse getCommentsWithSchedule(Long scheduleId);
 

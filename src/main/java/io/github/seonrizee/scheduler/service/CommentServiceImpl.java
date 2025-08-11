@@ -1,5 +1,6 @@
 package io.github.seonrizee.scheduler.service;
 
+import io.github.seonrizee.scheduler.common.code.ErrorCode;
 import io.github.seonrizee.scheduler.dto.request.CommentCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.CommentUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
@@ -7,6 +8,7 @@ import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.entity.Comment;
 import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.entity.User;
+import io.github.seonrizee.scheduler.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.mapper.CommentMapper;
 import io.github.seonrizee.scheduler.repository.CommentRepository;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
@@ -35,8 +37,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDetailResponse findCommentById(Long commentId) {
-        return null;
+    public CommentDetailResponse getComment(Long commentId) {
+
+        Comment savedComment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CustomBusinessException(ErrorCode.COMMENT_NOT_FOUND));
+        
+        return commentMapper.toDto(savedComment);
     }
 
     @Override
