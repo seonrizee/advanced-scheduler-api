@@ -25,6 +25,7 @@ public enum ErrorCode {
     private final String message;
 
     public String getMessage(String... args) {
-        return String.format(this.message, (Object) args);
+        return String.format(this.message, (Object[]) args);
     }
+
 }

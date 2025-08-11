@@ -3,11 +3,13 @@ package io.github.seonrizee.scheduler.exception;
 import io.github.seonrizee.scheduler.common.code.ErrorCode;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -26,8 +28,9 @@ public class GlobalExceptionHandler {
                 ErrorCode.METHOD_ARGUMENT_NOT_VALID.getHttpStatus(),
                 ErrorCode.METHOD_ARGUMENT_NOT_VALID.getCode(),
                 ErrorCode.METHOD_ARGUMENT_NOT_VALID.getMessage(
-                        Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage())
-        );
+                        Objects.requireNonNull(
+                                Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage())
+                ));
     }
 
 }
