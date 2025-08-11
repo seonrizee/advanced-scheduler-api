@@ -1,7 +1,10 @@
 package io.github.seonrizee.scheduler.exception;
 
+import io.github.seonrizee.scheduler.common.code.ErrorCode;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
+import java.util.Objects;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,4 +19,15 @@ public class GlobalExceptionHandler {
                 e.getErrorCode().getMessage()
         );
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidationException(MethodArgumentNotValidException e) {
+        return ApiResponse.error(
+                ErrorCode.METHOD_ARGUMENT_NOT_VALID.getHttpStatus(),
+                ErrorCode.METHOD_ARGUMENT_NOT_VALID.getCode(),
+                ErrorCode.METHOD_ARGUMENT_NOT_VALID.getMessage(
+                        Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage())
+        );
+    }
+
 }

@@ -1,5 +1,6 @@
 package io.github.seonrizee.scheduler.service;
 
+import io.github.seonrizee.scheduler.config.PasswordEncoderConfig;
 import io.github.seonrizee.scheduler.dto.request.UserRegisterRequest;
 import io.github.seonrizee.scheduler.dto.request.UserUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.UserListResponse;
@@ -18,12 +19,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoderConfig passwordEncoderConfig;
 
     @Override
     @Transactional
     public UserProfileResponse registerUser(UserRegisterRequest requestDto) {
 
-        User savedUser = userRepository.save(userMapper.toEntity(requestDto));
+        String encodedPassword = passwordEncoderConfig.encode(requestDto.getPassword());
+        User savedUser = userRepository.save(userMapper.toEntity(requestDto, encodedPassword));
         return userMapper.toDto(savedUser);
     }
 

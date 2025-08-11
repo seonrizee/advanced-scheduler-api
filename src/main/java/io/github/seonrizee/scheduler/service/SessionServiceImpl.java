@@ -1,6 +1,7 @@
 package io.github.seonrizee.scheduler.service;
 
 import io.github.seonrizee.scheduler.common.code.ErrorCode;
+import io.github.seonrizee.scheduler.config.PasswordEncoderConfig;
 import io.github.seonrizee.scheduler.dto.request.SessionCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 import io.github.seonrizee.scheduler.entity.User;
@@ -16,6 +17,7 @@ public class SessionServiceImpl implements SessionService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoderConfig passwordEncoderConfig;
 
     @Override
     public UserProfileResponse signIn(SessionCreateRequest requestDto) {
@@ -25,7 +27,7 @@ public class SessionServiceImpl implements SessionService {
                 .orElseThrow(() -> new CustomBusinessException(ErrorCode.USER_NOT_FOUND));
 
         // 비밀번호 확인
-        if (!user.getPassword().equals(requestDto.getPassword())) {
+        if (!passwordEncoderConfig.matches(requestDto.getPassword(), user.getPassword())) {
             throw new CustomBusinessException(ErrorCode.INVALID_USER);
         }
 

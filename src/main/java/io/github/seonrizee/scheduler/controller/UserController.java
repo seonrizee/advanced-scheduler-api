@@ -6,6 +6,7 @@ import io.github.seonrizee.scheduler.dto.request.UserUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.UserListResponse;
 import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 import io.github.seonrizee.scheduler.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +28,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<UserProfileResponse> registerUser(@RequestBody UserRegisterRequest requestDto) {
+    public ApiResponse<UserProfileResponse> registerUser(@RequestBody @Valid UserRegisterRequest requestDto) {
 
         UserProfileResponse responseDto = userService.registerUser(requestDto);
         return ApiResponse.created(responseDto);
@@ -48,7 +49,7 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public ApiResponse<UserProfileResponse> updateUserProfile(@PathVariable Long userId,
-                                                              @RequestBody UserUpdateRequest requestDto) {
+                                                              @RequestBody @Valid UserUpdateRequest requestDto) {
         UserProfileResponse responseDto = userService.updateUserProfile(userId, requestDto);
         return ApiResponse.ok(responseDto);
     }
