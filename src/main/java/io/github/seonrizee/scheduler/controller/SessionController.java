@@ -6,6 +6,7 @@ import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 import io.github.seonrizee.scheduler.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class SessionController {
 
     // Example endpoint method
     @PostMapping
-    public ApiResponse<UserProfileResponse> createSession(@RequestBody SessionCreateRequest requestDto,
+    public ApiResponse<UserProfileResponse> createSession(@RequestBody @Valid SessionCreateRequest requestDto,
                                                           HttpServletRequest request) {
 
         UserProfileResponse userProfileResponse = sessionService.signIn(requestDto);

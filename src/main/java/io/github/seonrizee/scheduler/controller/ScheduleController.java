@@ -6,6 +6,7 @@ import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class ScheduleController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<ScheduleDetailResponse> createSchedule(
-            @RequestBody ScheduleCreateRequest requestDto) {
+            @RequestBody @Valid ScheduleCreateRequest requestDto) {
 
         ScheduleDetailResponse responseDto = scheduleService.createSchedule(requestDto);
 
@@ -53,7 +54,7 @@ public class ScheduleController {
     @PatchMapping("/{scheduleId}")
     public ApiResponse<ScheduleDetailResponse> updateSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody ScheduleUpdateRequest requestDto) {
+            @RequestBody @Valid ScheduleUpdateRequest requestDto) {
 
         ScheduleDetailResponse responseDto = scheduleService.updateSchedule(scheduleId, requestDto);
         return ApiResponse.ok(responseDto);
