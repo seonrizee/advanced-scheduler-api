@@ -8,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ScheduleListResponse {
 
-    private final List<ScheduleDetailResponse> schedules;
+    private final List<ScheduleDetailResponse> scheduleDetailResponses;
 }

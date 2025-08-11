@@ -11,6 +11,7 @@ import io.github.seonrizee.scheduler.mapper.CommentMapper;
 import io.github.seonrizee.scheduler.repository.CommentRepository;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
 import io.github.seonrizee.scheduler.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +40,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentListResponse findCommentsByScheduleId(Long scheduleId) {
-        return null;
+    public CommentListResponse getCommentsWithSchedule(Long scheduleId) {
+
+        Schedule schedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
+        List<Comment> comments = commentRepository.findAllBySchedule(schedule);
+        return commentMapper.toDto(comments);
     }
 
     @Override

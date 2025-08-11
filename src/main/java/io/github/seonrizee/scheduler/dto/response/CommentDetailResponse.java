@@ -10,6 +10,8 @@ public class CommentDetailResponse {
 
     private final Long id;
     private final String content;
+    private final Long userId;
+    private final String username;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 }

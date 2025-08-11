@@ -11,7 +11,7 @@ public interface CommentService {
 
     CommentDetailResponse findCommentById(Long commentId);
 
-    CommentListResponse findCommentsByScheduleId(Long scheduleId);
+    CommentListResponse getCommentsWithSchedule(Long scheduleId);
 
     CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto);
 

@@ -8,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserListResponse {
 
-    private final List<UserProfileResponse> users;
+    private final List<UserProfileResponse> userProfileResponses;
 }

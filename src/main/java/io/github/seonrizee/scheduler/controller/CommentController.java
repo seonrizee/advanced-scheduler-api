@@ -4,8 +4,10 @@ import io.github.seonrizee.scheduler.auth.SessionUserId;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.CommentCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
+import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,5 +27,12 @@ public class CommentController {
 
         CommentDetailResponse responseDto = commentService.createComment(scheduleId, userId, requestDto);
         return ApiResponse.created(responseDto);
+    }
+
+    @GetMapping("/schedules/{scheduleId}/comments")
+    public ApiResponse<CommentListResponse> getCommentsWithSchedule(@PathVariable Long scheduleId) {
+
+        CommentListResponse responseDto = commentService.getCommentsWithSchedule(scheduleId);
+        return ApiResponse.ok(responseDto);
     }
 }
