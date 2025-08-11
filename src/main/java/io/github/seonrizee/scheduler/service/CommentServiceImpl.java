@@ -16,6 +16,7 @@ import io.github.seonrizee.scheduler.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
 
     @Override
+    @Transactional
     public CommentDetailResponse createComment(Long scheduleId, Long userId, CommentCreateRequest requestDto) {
 
         User user = userRepository.findByIdOrThrow(userId);
@@ -37,15 +39,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CommentDetailResponse getComment(Long commentId) {
 
-        Comment savedComment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CustomBusinessException(ErrorCode.COMMENT_NOT_FOUND));
-        
+        Comment savedComment = getCommentOrElseThrow(commentId);
+
         return commentMapper.toDto(savedComment);
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public CommentListResponse getCommentsWithSchedule(Long scheduleId) {
 
         Schedule schedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
@@ -54,12 +58,20 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto) {
         return null;
     }
 
     @Override
+    @Transactional
     public void deleteComment(Long commentId) {
+        Comment savedComment = getCommentOrElseThrow(commentId);
+        commentRepository.delete(savedComment);
+    }
 
+    private Comment getCommentOrElseThrow(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new CustomBusinessException(ErrorCode.COMMENT_NOT_FOUND));
     }
 }
