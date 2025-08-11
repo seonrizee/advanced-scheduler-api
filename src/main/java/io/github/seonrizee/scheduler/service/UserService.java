@@ -1,18 +1,18 @@
 package io.github.seonrizee.scheduler.service;
 
-import io.github.seonrizee.scheduler.dto.request.UserCreateRequest;
+import io.github.seonrizee.scheduler.dto.request.UserRegisterRequest;
 import io.github.seonrizee.scheduler.dto.request.UserUpdateRequest;
-import io.github.seonrizee.scheduler.dto.response.UserDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.UserListResponse;
+import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 
 public interface UserService {
-    UserDetailResponse registerUser(UserCreateRequest requestDto);
+    UserProfileResponse registerUser(UserRegisterRequest requestDto);
 
-    UserDetailResponse getUserProfile(Long userId);
+    UserProfileResponse getUserProfile(Long userId);
 
     UserListResponse getAllUsers();
 
-    UserDetailResponse updateUserProfile(Long userId, UserUpdateRequest requestDto);
+    UserProfileResponse updateUserProfile(Long userId, UserUpdateRequest requestDto);
 
     void deleteUser(Long userId);
 }

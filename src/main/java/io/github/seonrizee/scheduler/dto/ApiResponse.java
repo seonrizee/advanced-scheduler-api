@@ -4,6 +4,8 @@ package io.github.seonrizee.scheduler.dto;
 import io.github.seonrizee.scheduler.common.code.SuccessCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Getter
 @AllArgsConstructor
@@ -13,8 +15,8 @@ public class ApiResponse<T> {
     private final String message;
     private final T data;
 
-    public static ApiResponse<Void> error(String code, String message) {
-        return new ApiResponse<>(code, message, null);
+    public static ResponseEntity<ApiResponse<Void>> error(HttpStatus httpStatus, String code, String message) {
+        return new ResponseEntity<>(new ApiResponse<>(code, message, null), httpStatus);
     }
 
     public static <T> ApiResponse<T> created(T responseDto) {
