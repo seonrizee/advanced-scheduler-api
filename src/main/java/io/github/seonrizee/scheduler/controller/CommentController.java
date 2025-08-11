@@ -3,12 +3,14 @@ package io.github.seonrizee.scheduler.controller;
 import io.github.seonrizee.scheduler.auth.SessionUserId;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.CommentCreateRequest;
+import io.github.seonrizee.scheduler.dto.request.CommentUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +42,13 @@ public class CommentController {
     @GetMapping("/comments/{commentId}")
     public ApiResponse<CommentDetailResponse> getComment(@PathVariable Long commentId) {
         CommentDetailResponse responseDto = commentService.getComment(commentId);
+        return ApiResponse.ok(responseDto);
+    }
+
+    @PatchMapping("/comments/{commentId}")
+    public ApiResponse<CommentDetailResponse> updateComment(@PathVariable Long commentId,
+                                                            @RequestBody CommentUpdateRequest requestDto) {
+        CommentDetailResponse responseDto = commentService.updateComment(commentId, requestDto);
         return ApiResponse.ok(responseDto);
     }
 

@@ -60,7 +60,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto) {
-        return null;
+        Comment savedComment = getCommentOrElseThrow(commentId);
+        savedComment.updateContent(requestDto.getContent());
+        return commentMapper.toDto(savedComment);
     }
 
     @Override
