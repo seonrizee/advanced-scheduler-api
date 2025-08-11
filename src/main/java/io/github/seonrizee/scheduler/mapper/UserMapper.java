@@ -17,6 +17,14 @@ public class UserMapper {
                 .build();
     }
 
+    public User toEntity(UserRegisterRequest requestDto, String encodedPassword) {
+        return User.builder()
+                .username(requestDto.getUsername())
+                .email(requestDto.getEmail())
+                .password(encodedPassword)
+                .build();
+    }
+
     public UserProfileResponse toDto(User user) {
         return new UserProfileResponse(
                 user.getId(),
