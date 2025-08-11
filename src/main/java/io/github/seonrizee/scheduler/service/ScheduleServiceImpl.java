@@ -1,13 +1,11 @@
 package io.github.seonrizee.scheduler.service;
 
-import io.github.seonrizee.scheduler.common.code.ErrorCode;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.entity.User;
-import io.github.seonrizee.scheduler.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
 import io.github.seonrizee.scheduler.repository.UserRepository;
@@ -37,7 +35,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleDetailResponse findScheduleById(Long scheduleId) {
-        Schedule schedule = findScheduleByIdOrThrow(scheduleId);
+        Schedule schedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
         return scheduleMapper.toDto(schedule);
     }
 
@@ -50,7 +48,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto) {
-        Schedule existingSchedule = findScheduleByIdOrThrow(scheduleId);
+        Schedule existingSchedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
         existingSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
         return scheduleMapper.toDto(existingSchedule);
     }
@@ -58,12 +56,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public void deleteSchedule(Long scheduleId) {
-        Schedule existingSchedule = findScheduleByIdOrThrow(scheduleId);
+        Schedule existingSchedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
         scheduleRepository.delete(existingSchedule);
-    }
-
-    private Schedule findScheduleByIdOrThrow(Long scheduleId) {
-        return scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new CustomBusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
     }
 }
