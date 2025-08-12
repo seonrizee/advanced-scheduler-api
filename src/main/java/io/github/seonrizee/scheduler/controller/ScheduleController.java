@@ -5,6 +5,7 @@ import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
+import io.github.seonrizee.scheduler.dto.response.SchedulePageResponse;
 import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.service.ScheduleFinder;
 import io.github.seonrizee.scheduler.service.ScheduleService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,9 +49,11 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ApiResponse<List<ScheduleDetailResponse>> getSchedules() {
+    public ApiResponse<List<SchedulePageResponse>> getSchedules(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
 
-        List<ScheduleDetailResponse> responseDto = scheduleFinder.getSchedules();
+        List<SchedulePageResponse> responseDto = scheduleFinder.getSchedules(page, size);
         return ApiResponse.ok(responseDto);
     }
 
