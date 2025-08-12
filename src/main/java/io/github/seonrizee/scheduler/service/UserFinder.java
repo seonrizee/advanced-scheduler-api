@@ -27,8 +27,7 @@ public class UserFinder {
     public UserListResponse getAllUsers() {
         return userMapper.toDto(userRepository.findAll());
     }
-
-
+    
     public User findByIdOrThrow(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new CustomBusinessException(ErrorCode.USER_NOT_FOUND));
