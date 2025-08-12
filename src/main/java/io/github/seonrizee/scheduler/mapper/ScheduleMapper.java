@@ -1,6 +1,7 @@
 package io.github.seonrizee.scheduler.mapper;
 
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
+import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
@@ -18,6 +19,18 @@ public class ScheduleMapper {
                 .build();
     }
 
+    public ScheduleDetailResponse toDto(Schedule schedule, CommentListResponse comments) {
+        return new ScheduleDetailResponse(
+                schedule.getId(),
+                schedule.getSummary(),
+                schedule.getDescription(),
+                schedule.getUser().getId(),
+                schedule.getUser().getUsername(),
+                schedule.getCreatedAt(),
+                schedule.getUpdatedAt(),
+                comments);
+    }
+
     public ScheduleDetailResponse toDto(Schedule schedule) {
         return new ScheduleDetailResponse(
                 schedule.getId(),
@@ -26,7 +39,8 @@ public class ScheduleMapper {
                 schedule.getUser().getId(),
                 schedule.getUser().getUsername(),
                 schedule.getCreatedAt(),
-                schedule.getUpdatedAt());
+                schedule.getUpdatedAt(),
+                null);
     }
 
     public ScheduleListResponse toDto(List<Schedule> schedules) {

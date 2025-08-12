@@ -15,4 +15,5 @@ public class ScheduleDetailResponse {
     private final String username;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
+    private final CommentListResponse comments;
 }

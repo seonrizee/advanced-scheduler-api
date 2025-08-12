@@ -42,7 +42,7 @@ public class ScheduleController {
     @GetMapping("/{scheduleId}")
     public ApiResponse<ScheduleDetailResponse> getSchedule(@PathVariable Long scheduleId) {
 
-        ScheduleDetailResponse responseDto = scheduleFinder.findScheduleById(scheduleId);
+        ScheduleDetailResponse responseDto = scheduleFinder.getSchedule(scheduleId);
         return ApiResponse.ok(responseDto);
     }
 

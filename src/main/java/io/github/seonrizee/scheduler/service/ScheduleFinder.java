@@ -2,6 +2,7 @@ package io.github.seonrizee.scheduler.service;
 
 import io.github.seonrizee.scheduler.common.code.ErrorCode;
 import io.github.seonrizee.scheduler.common.exception.CustomBusinessException;
+import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
@@ -19,10 +20,12 @@ public class ScheduleFinder {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleMapper scheduleMapper;
+    private final CommentFinder commentFinder;
 
-    public ScheduleDetailResponse findScheduleById(Long scheduleId) {
+    public ScheduleDetailResponse getSchedule(Long scheduleId) {
         Schedule schedule = findScheduleByIdOrThrow(scheduleId);
-        return scheduleMapper.toDto(schedule);
+        CommentListResponse comments = commentFinder.getCommentsWithSchedule(scheduleId);
+        return scheduleMapper.toDto(schedule, comments);
     }
 
     public ScheduleListResponse getSchedules() {

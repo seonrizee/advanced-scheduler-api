@@ -5,7 +5,6 @@ import io.github.seonrizee.scheduler.common.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.entity.Comment;
-import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.mapper.CommentMapper;
 import io.github.seonrizee.scheduler.repository.CommentRepository;
 import java.util.List;
@@ -20,7 +19,6 @@ public class CommentFinder {
 
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
-    private final ScheduleFinder scheduleFinder;
 
     public CommentDetailResponse getComment(Long commentId) {
 
@@ -30,9 +28,8 @@ public class CommentFinder {
 
     public CommentListResponse getCommentsWithSchedule(Long scheduleId) {
 
-        Schedule schedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
-        List<Comment> comments = commentRepository.findAllBySchedule(schedule);
-        return commentMapper.toDto(comments);
+        List<Comment> commentsByScheduleId = commentRepository.findAllByScheduleId(scheduleId);
+        return commentMapper.toDto(commentsByScheduleId);
     }
 
     public Comment getCommentOrElseThrow(Long commentId) {
