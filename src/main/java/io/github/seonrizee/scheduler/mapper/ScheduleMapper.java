@@ -2,7 +2,6 @@ package io.github.seonrizee.scheduler.mapper;
 
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
-import io.github.seonrizee.scheduler.dto.response.SchedulePageResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.entity.User;
 import java.util.List;
@@ -33,19 +32,6 @@ public class ScheduleMapper {
                 schedule.getCreatedAt(),
                 schedule.getUpdatedAt(),
                 schedule.getComments().stream().map(commentMapper::toDto).toList()
-        );
-    }
-
-    public SchedulePageResponse toPageDto(Schedule schedule) {
-        return new SchedulePageResponse(
-                schedule.getId(),
-                schedule.getSummary(),
-                schedule.getDescription(),
-                schedule.getComments().size(),
-                schedule.getUser().getId(),
-                schedule.getUser().getUsername(),
-                schedule.getCreatedAt(),
-                schedule.getUpdatedAt()
         );
     }
 

@@ -9,7 +9,6 @@ import io.github.seonrizee.scheduler.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -33,8 +32,9 @@ public class ScheduleFinder {
     public List<SchedulePageResponse> getSchedules(int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("updatedAt").descending());
-        Page<Schedule> schedulePage = scheduleRepository.findAll(pageable);
-        return schedulePage.map(scheduleMapper::toPageDto).getContent();
+        return scheduleRepository
+                .findWithCommentCount(pageable)
+                .getContent();
     }
 
     public Schedule findScheduleByIdOrThrow(Long scheduleId) {
