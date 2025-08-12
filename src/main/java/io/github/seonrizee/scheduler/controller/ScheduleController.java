@@ -31,7 +31,7 @@ public class ScheduleController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<ScheduleDetailResponse> createSchedule(
-            @RequestBody @Valid ScheduleCreateRequest requestDto, User user) {
+            @RequestBody @Valid ScheduleCreateRequest requestDto, @SessionUser User user) {
 
         ScheduleDetailResponse responseDto = scheduleService.createSchedule(requestDto, user);
         return ApiResponse.created(responseDto);
