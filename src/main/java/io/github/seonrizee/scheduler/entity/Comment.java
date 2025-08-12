@@ -19,14 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Comment extends BaseDateTimeEntity implements Ownable {
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    User user;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id", nullable = false)
-    Schedule schedule;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
@@ -34,6 +26,14 @@ public class Comment extends BaseDateTimeEntity implements Ownable {
 
     @Column(nullable = false)
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private Schedule schedule;
 
     @Builder
     public Comment(String content, User user, Schedule schedule) {
@@ -49,5 +49,9 @@ public class Comment extends BaseDateTimeEntity implements Ownable {
     @Override
     public User getUser() {
         return user;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 }

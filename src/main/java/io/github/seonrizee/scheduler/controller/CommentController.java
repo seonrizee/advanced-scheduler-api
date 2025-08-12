@@ -5,11 +5,11 @@ import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.CommentCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.CommentUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
-import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.service.CommentFinder;
 import io.github.seonrizee.scheduler.service.CommentService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +37,9 @@ public class CommentController {
     }
 
     @GetMapping("/schedules/{scheduleId}/comments")
-    public ApiResponse<CommentListResponse> getCommentsWithSchedule(@PathVariable Long scheduleId) {
+    public ApiResponse<List<CommentDetailResponse>> getCommentsWithSchedule(@PathVariable Long scheduleId) {
 
-        CommentListResponse responseDto = commentFinder.getCommentsWithSchedule(scheduleId);
+        List<CommentDetailResponse> responseDto = commentFinder.getCommentsWithSchedule(scheduleId);
         return ApiResponse.ok(responseDto);
     }
 

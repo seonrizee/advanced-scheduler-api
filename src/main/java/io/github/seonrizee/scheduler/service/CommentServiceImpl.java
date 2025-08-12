@@ -27,8 +27,11 @@ public class CommentServiceImpl implements CommentService {
     public CommentDetailResponse createComment(Long scheduleId, CommentCreateRequest requestDto, User user) {
 
         Schedule schedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
-        Comment savedComment = commentRepository.save(commentMapper.toEntity(requestDto, schedule, user));
-        return commentMapper.toDto(savedComment);
+        Comment newComment = commentMapper.toEntity(requestDto, schedule, user);
+        schedule.addComment(newComment);
+        commentRepository.save(newComment);
+        
+        return commentMapper.toDto(newComment);
     }
 
 

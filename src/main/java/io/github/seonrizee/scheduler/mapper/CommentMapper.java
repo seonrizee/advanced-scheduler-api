@@ -2,7 +2,6 @@ package io.github.seonrizee.scheduler.mapper;
 
 import io.github.seonrizee.scheduler.dto.request.CommentCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
-import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.entity.Comment;
 import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.entity.User;
@@ -30,9 +29,9 @@ public class CommentMapper {
                 comment.getUpdatedAt());
     }
 
-    public CommentListResponse toDto(List<Comment> comments) {
-        return new CommentListResponse(comments.stream()
+    public List<CommentDetailResponse> toDto(List<Comment> comments) {
+        return comments.stream()
                 .map(this::toDto)
-                .toList());
+                .toList();
     }
 }

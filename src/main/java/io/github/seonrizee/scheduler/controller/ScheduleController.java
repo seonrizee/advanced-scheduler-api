@@ -5,11 +5,11 @@ import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
-import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
 import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.service.ScheduleFinder;
 import io.github.seonrizee.scheduler.service.ScheduleService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,9 +47,9 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ApiResponse<ScheduleListResponse> getSchedules() {
+    public ApiResponse<List<ScheduleDetailResponse>> getSchedules() {
 
-        ScheduleListResponse responseDto = scheduleFinder.getSchedules();
+        List<ScheduleDetailResponse> responseDto = scheduleFinder.getSchedules();
         return ApiResponse.ok(responseDto);
     }
 

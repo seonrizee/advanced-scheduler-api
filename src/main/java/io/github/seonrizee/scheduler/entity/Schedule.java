@@ -2,6 +2,7 @@ package io.github.seonrizee.scheduler.entity;
 
 import io.github.seonrizee.scheduler.common.entity.BaseDateTimeEntity;
 import io.github.seonrizee.scheduler.common.entity.Ownable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +23,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Schedule extends BaseDateTimeEntity implements Ownable {
+
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private final List<Comment> comments = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +54,11 @@ public class Schedule extends BaseDateTimeEntity implements Ownable {
     public void updateDetail(String summary, String description) {
         this.summary = summary;
         this.description = description;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.setSchedule(this);
     }
 
     @Override
