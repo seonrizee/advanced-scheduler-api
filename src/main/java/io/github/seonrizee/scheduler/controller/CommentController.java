@@ -7,6 +7,7 @@ import io.github.seonrizee.scheduler.dto.request.CommentUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class CommentController {
 
     @PostMapping("/schedules/{scheduleId}/comments")
     public ApiResponse<CommentDetailResponse> createComment(@PathVariable Long scheduleId,
-                                                            @RequestBody CommentCreateRequest requestDto,
+                                                            @Valid @RequestBody CommentCreateRequest requestDto,
                                                             @SessionUserId Long userId
     ) {
 
@@ -47,8 +48,9 @@ public class CommentController {
 
     @PatchMapping("/comments/{commentId}")
     public ApiResponse<CommentDetailResponse> updateComment(@PathVariable Long commentId,
-                                                            @RequestBody CommentUpdateRequest requestDto) {
-        CommentDetailResponse responseDto = commentService.updateComment(commentId, requestDto);
+                                                            @Valid @RequestBody CommentUpdateRequest requestDto,
+                                                            @SessionUserId Long userId) {
+        CommentDetailResponse responseDto = commentService.updateComment(commentId, requestDto, userId);
         return ApiResponse.ok(responseDto);
     }
 
