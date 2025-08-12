@@ -1,6 +1,6 @@
 package io.github.seonrizee.scheduler.controller;
 
-import io.github.seonrizee.scheduler.common.annotation.SessionUser;
+import io.github.seonrizee.scheduler.common.annotation.LoginUser;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.CommentCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.CommentUpdateRequest;
@@ -27,7 +27,7 @@ public class CommentController {
     @PostMapping("/schedules/{scheduleId}/comments")
     public ApiResponse<CommentDetailResponse> createComment(@PathVariable Long scheduleId,
                                                             @Valid @RequestBody CommentCreateRequest requestDto,
-                                                            @SessionUser User user
+                                                            @LoginUser User user
     ) {
 
         CommentDetailResponse responseDto = commentService.createComment(scheduleId, requestDto, user);
@@ -50,13 +50,13 @@ public class CommentController {
     @PatchMapping("/comments/{commentId}")
     public ApiResponse<CommentDetailResponse> updateComment(@PathVariable Long commentId,
                                                             @Valid @RequestBody CommentUpdateRequest requestDto,
-                                                            @SessionUser User user) {
+                                                            @LoginUser User user) {
         CommentDetailResponse responseDto = commentService.updateComment(commentId, requestDto, user);
         return ApiResponse.ok(responseDto);
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public ApiResponse<Void> deleteComment(@PathVariable Long commentId, @SessionUser User user) {
+    public ApiResponse<Void> deleteComment(@PathVariable Long commentId, @LoginUser User user) {
         commentService.deleteComment(commentId, user);
         return ApiResponse.ok();
     }

@@ -1,6 +1,6 @@
 package io.github.seonrizee.scheduler.config;
 
-import io.github.seonrizee.scheduler.common.annotation.SessionUser;
+import io.github.seonrizee.scheduler.common.annotation.LoginUser;
 import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.service.UserFinder;
 import jakarta.servlet.http.HttpSession;
@@ -15,7 +15,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 @RequiredArgsConstructor
-public class SessionUserIdArgumentResolver implements HandlerMethodArgumentResolver {
+public class LoginUserIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final HttpSession httpSession;
     private final UserFinder userFinder;
@@ -23,7 +23,7 @@ public class SessionUserIdArgumentResolver implements HandlerMethodArgumentResol
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
 
-        boolean hasAnnotation = parameter.hasParameterAnnotation(SessionUser.class);
+        boolean hasAnnotation = parameter.hasParameterAnnotation(LoginUser.class);
         boolean hasType = User.class.isAssignableFrom(parameter.getParameterType());
         return hasAnnotation && hasType;
     }

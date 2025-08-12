@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final SessionUserIdArgumentResolver sessionUserIdArgumentResolver;
+    private final LoginUserIdArgumentResolver loginUserIdArgumentResolver;
 
     @Bean
     public FilterRegistrationBean<SessionFilter> sessionFilterRegistration(SessionFilter sessionFilter) {
@@ -26,6 +26,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(sessionUserIdArgumentResolver);
+        resolvers.add(loginUserIdArgumentResolver);
     }
 }

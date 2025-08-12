@@ -1,6 +1,6 @@
 package io.github.seonrizee.scheduler.controller;
 
-import io.github.seonrizee.scheduler.common.annotation.SessionUser;
+import io.github.seonrizee.scheduler.common.annotation.LoginUser;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
@@ -31,7 +31,7 @@ public class ScheduleController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<ScheduleDetailResponse> createSchedule(
-            @RequestBody @Valid ScheduleCreateRequest requestDto, @SessionUser User user) {
+            @RequestBody @Valid ScheduleCreateRequest requestDto, @LoginUser User user) {
 
         ScheduleDetailResponse responseDto = scheduleService.createSchedule(requestDto, user);
         return ApiResponse.created(responseDto);
@@ -55,14 +55,14 @@ public class ScheduleController {
     public ApiResponse<ScheduleDetailResponse> updateSchedule(
             @PathVariable Long scheduleId,
             @RequestBody @Valid ScheduleUpdateRequest requestDto,
-            @SessionUser User user) {
+            @LoginUser User user) {
 
         ScheduleDetailResponse responseDto = scheduleService.updateSchedule(scheduleId, requestDto, user);
         return ApiResponse.ok(responseDto);
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId, @SessionUser User user) {
+    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId, @LoginUser User user) {
 
         scheduleService.deleteSchedule(scheduleId, user);
         return ApiResponse.ok();

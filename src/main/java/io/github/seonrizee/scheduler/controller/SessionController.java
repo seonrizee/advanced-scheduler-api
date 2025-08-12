@@ -25,7 +25,7 @@ public class SessionController {
     public ApiResponse<UserProfileResponse> createSession(@RequestBody @Valid SessionCreateRequest requestDto,
                                                           HttpServletRequest request) {
 
-        UserProfileResponse userProfileResponse = sessionService.signIn(requestDto);
+        UserProfileResponse userProfileResponse = sessionService.login(requestDto);
 
         // 세션 생성 및 사용자 ID 저장
         HttpSession session = request.getSession();

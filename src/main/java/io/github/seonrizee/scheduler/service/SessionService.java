@@ -5,6 +5,6 @@ import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 
 public interface SessionService {
 
-    UserProfileResponse signIn(SessionCreateRequest requestDto);
+    UserProfileResponse login(SessionCreateRequest requestDto);
 
 }

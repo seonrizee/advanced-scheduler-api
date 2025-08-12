@@ -20,7 +20,7 @@ public class SessionServiceImpl implements SessionService {
     private final PasswordEncoderConfig passwordEncoderConfig;
 
     @Override
-    public UserProfileResponse signIn(SessionCreateRequest requestDto) {
+    public UserProfileResponse login(SessionCreateRequest requestDto) {
 
         // 이메일로 사용자 조회
         User user = userRepository.findByEmail(requestDto.getEmail())
