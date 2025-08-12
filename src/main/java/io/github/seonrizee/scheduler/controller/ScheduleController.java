@@ -1,5 +1,6 @@
 package io.github.seonrizee.scheduler.controller;
 
+import io.github.seonrizee.scheduler.auth.SessionUserId;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
@@ -54,16 +55,17 @@ public class ScheduleController {
     @PatchMapping("/{scheduleId}")
     public ApiResponse<ScheduleDetailResponse> updateSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody @Valid ScheduleUpdateRequest requestDto) {
+            @RequestBody @Valid ScheduleUpdateRequest requestDto,
+            @SessionUserId Long userId) {
 
-        ScheduleDetailResponse responseDto = scheduleService.updateSchedule(scheduleId, requestDto);
+        ScheduleDetailResponse responseDto = scheduleService.updateSchedule(scheduleId, requestDto, userId);
         return ApiResponse.ok(responseDto);
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId) {
+    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId, @SessionUserId Long userId) {
 
-        scheduleService.deleteSchedule(scheduleId);
+        scheduleService.deleteSchedule(scheduleId, userId);
         return ApiResponse.ok();
     }
 }

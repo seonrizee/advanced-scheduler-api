@@ -47,7 +47,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto) {
+    public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, Long userId) {
+        // TODO 내가 작성한건지 확인 필요
+
         Schedule existingSchedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
         existingSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
         return scheduleMapper.toDto(existingSchedule);
@@ -55,7 +57,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public void deleteSchedule(Long scheduleId) {
+    public void deleteSchedule(Long scheduleId, Long userId) {
+        // TODO 내가 작성한건지 확인 필요
+
         Schedule existingSchedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
         scheduleRepository.delete(existingSchedule);
     }

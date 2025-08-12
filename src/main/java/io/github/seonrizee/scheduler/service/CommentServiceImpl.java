@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDetailResponse createComment(Long scheduleId, Long userId, CommentCreateRequest requestDto) {
+    public CommentDetailResponse createComment(Long scheduleId, CommentCreateRequest requestDto, Long userId) {
 
         User user = userRepository.findByIdOrThrow(userId);
         Schedule schedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
@@ -43,7 +43,6 @@ public class CommentServiceImpl implements CommentService {
     public CommentDetailResponse getComment(Long commentId) {
 
         Comment savedComment = getCommentOrElseThrow(commentId);
-
         return commentMapper.toDto(savedComment);
     }
 
@@ -59,7 +58,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto) {
+    public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, Long userId) {
+
+        // TODO 세부 인가 - 내가 작성한건지 확인 필요
         Comment savedComment = getCommentOrElseThrow(commentId);
         savedComment.updateContent(requestDto.getContent());
         return commentMapper.toDto(savedComment);
@@ -67,7 +68,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, Long userId) {
+
+        // TODO 세부 인가 - 내가 작성한건지 확인 필요
         Comment savedComment = getCommentOrElseThrow(commentId);
         commentRepository.delete(savedComment);
     }

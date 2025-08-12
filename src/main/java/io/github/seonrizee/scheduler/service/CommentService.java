@@ -7,14 +7,14 @@ import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 
 public interface CommentService {
 
-    CommentDetailResponse createComment(Long scheduleId, Long userId, CommentCreateRequest requestDto);
+    CommentDetailResponse createComment(Long scheduleId, CommentCreateRequest requestDto, Long userId);
 
     CommentDetailResponse getComment(Long commentId);
 
     CommentListResponse getCommentsWithSchedule(Long scheduleId);
 
-    CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto);
+    CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, Long userId);
 
-    void deleteComment(Long commentId);
+    void deleteComment(Long commentId, Long userId);
 
 }

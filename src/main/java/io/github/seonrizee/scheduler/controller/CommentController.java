@@ -29,7 +29,7 @@ public class CommentController {
                                                             @SessionUserId Long userId
     ) {
 
-        CommentDetailResponse responseDto = commentService.createComment(scheduleId, userId, requestDto);
+        CommentDetailResponse responseDto = commentService.createComment(scheduleId, requestDto, userId);
         return ApiResponse.created(responseDto);
     }
 
@@ -55,8 +55,8 @@ public class CommentController {
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public ApiResponse<Void> deleteComment(@PathVariable Long commentId) {
-        commentService.deleteComment(commentId);
+    public ApiResponse<Void> deleteComment(@PathVariable Long commentId, @SessionUserId Long userId) {
+        commentService.deleteComment(commentId, userId);
         return ApiResponse.ok();
     }
 }

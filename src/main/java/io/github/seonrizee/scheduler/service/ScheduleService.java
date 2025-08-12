@@ -13,7 +13,7 @@ public interface ScheduleService {
 
     ScheduleListResponse findAllSchedules();
 
-    ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto);
+    ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, Long userId);
 
-    void deleteSchedule(Long scheduleId);
+    void deleteSchedule(Long scheduleId, Long userId);
 }
