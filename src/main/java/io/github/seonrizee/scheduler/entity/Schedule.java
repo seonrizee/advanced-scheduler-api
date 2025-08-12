@@ -1,6 +1,7 @@
 package io.github.seonrizee.scheduler.entity;
 
 import io.github.seonrizee.scheduler.common.entity.BaseDateTimeEntity;
+import io.github.seonrizee.scheduler.common.entity.Ownable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Schedule extends BaseDateTimeEntity {
+public class Schedule extends BaseDateTimeEntity implements Ownable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,5 +46,10 @@ public class Schedule extends BaseDateTimeEntity {
     public void updateDetail(String summary, String description) {
         this.summary = summary;
         this.description = description;
+    }
+
+    @Override
+    public User getUser() {
+        return user;
     }
 }

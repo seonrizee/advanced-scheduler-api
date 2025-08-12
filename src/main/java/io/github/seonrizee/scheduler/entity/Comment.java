@@ -1,6 +1,7 @@
 package io.github.seonrizee.scheduler.entity;
 
 import io.github.seonrizee.scheduler.common.entity.BaseDateTimeEntity;
+import io.github.seonrizee.scheduler.common.entity.Ownable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Comment extends BaseDateTimeEntity {
+public class Comment extends BaseDateTimeEntity implements Ownable {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,5 +44,10 @@ public class Comment extends BaseDateTimeEntity {
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public User getUser() {
+        return user;
     }
 }

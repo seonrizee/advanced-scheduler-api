@@ -21,6 +21,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentFinder commentFinder;
     private final ScheduleFinder scheduleFinder;
     private final CommentMapper commentMapper;
+    private final AuthorizationService authorizationService;
 
     @Override
     public CommentDetailResponse createComment(Long scheduleId, CommentCreateRequest requestDto, User user) {
@@ -34,8 +35,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, User user) {
 
-        // TODO 세부 인가 - 내가 작성한건지 확인 필요
         Comment savedComment = commentFinder.getCommentOrElseThrow(commentId);
+        authorizationService.validateOwnership(savedComment, user);
         savedComment.updateContent(requestDto.getContent());
         return commentMapper.toDto(savedComment);
     }
@@ -43,8 +44,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long commentId, User user) {
 
-        // TODO 세부 인가 - 내가 작성한건지 확인 필요
         Comment savedComment = commentFinder.getCommentOrElseThrow(commentId);
+        authorizationService.validateOwnership(savedComment, user);
         commentRepository.delete(savedComment);
     }
 }

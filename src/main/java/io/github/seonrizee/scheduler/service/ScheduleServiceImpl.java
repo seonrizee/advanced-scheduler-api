@@ -19,6 +19,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ScheduleFinder scheduleFinder;
     private final ScheduleMapper scheduleMapper;
+    private final AuthorizationService authorizationService;
 
     @Override
     public ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto, User user) {
@@ -31,17 +32,17 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, User user) {
 
-        // TODO 세부 인가 - 내가 작성한건지 확인 필요
-        Schedule existingSchedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
-        existingSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
-        return scheduleMapper.toDto(existingSchedule);
+        Schedule savedSchedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
+        authorizationService.validateOwnership(savedSchedule, user);
+        savedSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
+        return scheduleMapper.toDto(savedSchedule);
     }
 
     @Override
     public void deleteSchedule(Long scheduleId, User user) {
 
-        // TODO 세부 인가 - 내가 작성한건지 확인 필요
-        Schedule existingSchedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
-        scheduleRepository.delete(existingSchedule);
+        Schedule savedSchedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
+        authorizationService.validateOwnership(savedSchedule, user);
+        scheduleRepository.delete(savedSchedule);
     }
 }
