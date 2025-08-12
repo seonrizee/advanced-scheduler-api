@@ -1,4 +1,4 @@
-package io.github.seonrizee.scheduler.exception;
+package io.github.seonrizee.scheduler.common.exception;
 
 import io.github.seonrizee.scheduler.common.code.ErrorCode;
 import lombok.Getter;

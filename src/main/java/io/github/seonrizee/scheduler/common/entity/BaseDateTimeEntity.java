@@ -1,4 +1,4 @@
-package io.github.seonrizee.scheduler.entity;
+package io.github.seonrizee.scheduler.common.entity;
 
 
 import jakarta.persistence.Column;

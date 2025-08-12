@@ -1,5 +1,6 @@
 package io.github.seonrizee.scheduler.entity;
 
+import io.github.seonrizee.scheduler.common.entity.BaseDateTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
