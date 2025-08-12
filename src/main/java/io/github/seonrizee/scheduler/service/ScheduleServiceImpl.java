@@ -8,7 +8,6 @@ import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
-import io.github.seonrizee.scheduler.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,13 +20,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleMapper scheduleMapper;
-    private final UserRepository userRepository;
+    private final UserFinder userFinder;
 
     @Override
     @Transactional
-    public ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto) {
-        Long userId = requestDto.getUserId();
-        User user = userRepository.findByIdOrThrow(userId);
+    public ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto, User user) {
 
         Schedule savedSchedule = scheduleRepository.save(scheduleMapper.toEntity(requestDto, user));
         return scheduleMapper.toDto(savedSchedule);
@@ -40,16 +37,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleListResponse findAllSchedules() {
+    public ScheduleListResponse getSchedules() {
         List<Schedule> schedules = scheduleRepository.findAll();
         return scheduleMapper.toDto(schedules);
     }
 
     @Override
     @Transactional
-    public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, Long userId) {
-        // TODO 내가 작성한건지 확인 필요
+    public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, User user) {
 
+        // TODO 세부 인가 - 내가 작성한건지 확인 필요
         Schedule existingSchedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
         existingSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
         return scheduleMapper.toDto(existingSchedule);
@@ -57,9 +54,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public void deleteSchedule(Long scheduleId, Long userId) {
-        // TODO 내가 작성한건지 확인 필요
+    public void deleteSchedule(Long scheduleId, User user) {
 
+        // TODO 세부 인가 - 내가 작성한건지 확인 필요
         Schedule existingSchedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
         scheduleRepository.delete(existingSchedule);
     }

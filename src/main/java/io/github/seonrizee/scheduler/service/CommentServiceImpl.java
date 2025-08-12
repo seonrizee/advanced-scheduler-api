@@ -1,6 +1,7 @@
 package io.github.seonrizee.scheduler.service;
 
 import io.github.seonrizee.scheduler.common.code.ErrorCode;
+import io.github.seonrizee.scheduler.common.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.dto.request.CommentCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.CommentUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
@@ -8,11 +9,9 @@ import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
 import io.github.seonrizee.scheduler.entity.Comment;
 import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.entity.User;
-import io.github.seonrizee.scheduler.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.mapper.CommentMapper;
 import io.github.seonrizee.scheduler.repository.CommentRepository;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
-import io.github.seonrizee.scheduler.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,17 +23,15 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
-    private final UserRepository userRepository;
+    private final UserFinder userFinder;
     private final CommentMapper commentMapper;
 
     @Override
     @Transactional
-    public CommentDetailResponse createComment(Long scheduleId, CommentCreateRequest requestDto, Long userId) {
+    public CommentDetailResponse createComment(Long scheduleId, CommentCreateRequest requestDto, User user) {
 
-        User user = userRepository.findByIdOrThrow(userId);
         Schedule schedule = scheduleRepository.findScheduleByIdOrThrow(scheduleId);
-
-        Comment savedComment = commentRepository.save(commentMapper.toEntity(requestDto, user, schedule));
+        Comment savedComment = commentRepository.save(commentMapper.toEntity(requestDto, schedule, user));
         return commentMapper.toDto(savedComment);
     }
 
@@ -58,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, Long userId) {
+    public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, User user) {
 
         // TODO 세부 인가 - 내가 작성한건지 확인 필요
         Comment savedComment = getCommentOrElseThrow(commentId);
@@ -68,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void deleteComment(Long commentId, Long userId) {
+    public void deleteComment(Long commentId, User user) {
 
         // TODO 세부 인가 - 내가 작성한건지 확인 필요
         Comment savedComment = getCommentOrElseThrow(commentId);

@@ -3,7 +3,6 @@ package io.github.seonrizee.scheduler.service;
 import io.github.seonrizee.scheduler.config.PasswordEncoderConfig;
 import io.github.seonrizee.scheduler.dto.request.UserRegisterRequest;
 import io.github.seonrizee.scheduler.dto.request.UserUpdateRequest;
-import io.github.seonrizee.scheduler.dto.response.UserListResponse;
 import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.mapper.UserMapper;
@@ -18,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserFinder userFinder;
     private final UserMapper userMapper;
     private final PasswordEncoderConfig passwordEncoderConfig;
 
     @Override
-    @Transactional
     public UserProfileResponse registerUser(UserRegisterRequest requestDto) {
 
         String encodedPassword = passwordEncoderConfig.encode(requestDto.getPassword());
@@ -30,29 +29,17 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(savedUser);
     }
 
-    @Override
-    public UserProfileResponse getUserProfile(Long userId) {
-        User user = userRepository.findByIdOrThrow(userId);
-        return userMapper.toDto(user);
-    }
 
     @Override
-    public UserListResponse getAllUsers() {
-        return userMapper.toDto(userRepository.findAll());
-    }
-
-    @Override
-    @Transactional
     public UserProfileResponse updateUserProfile(Long userId, UserUpdateRequest requestDto) {
-        User existingUser = userRepository.findByIdOrThrow(userId);
+        User existingUser = userFinder.findByIdOrThrow(userId);
         existingUser.updateProfile(requestDto.getUsername(), requestDto.getEmail());
         return userMapper.toDto(existingUser);
     }
 
     @Override
-    @Transactional
     public void deleteUser(Long userId) {
-        User existingUser = userRepository.findByIdOrThrow(userId);
+        User existingUser = userFinder.findByIdOrThrow(userId);
         userRepository.delete(existingUser);
     }
 }

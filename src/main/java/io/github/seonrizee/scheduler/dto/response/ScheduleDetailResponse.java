@@ -11,6 +11,7 @@ public class ScheduleDetailResponse {
     private final Long id;
     private final String summary;
     private final String description;
+    private final Long userId;
     private final String username;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommentMapper {
 
-    public Comment toEntity(CommentCreateRequest requestDto, User user, Schedule schedule) {
+    public Comment toEntity(CommentCreateRequest requestDto, Schedule schedule, User user) {
         return Comment.builder()
                 .content(requestDto.getContent())
                 .user(user)

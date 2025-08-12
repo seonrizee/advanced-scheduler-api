@@ -1,11 +1,12 @@
 package io.github.seonrizee.scheduler.controller;
 
-import io.github.seonrizee.scheduler.auth.SessionUserId;
+import io.github.seonrizee.scheduler.common.annotation.SessionUser;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.CommentCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.CommentUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.CommentDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.CommentListResponse;
+import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,10 @@ public class CommentController {
     @PostMapping("/schedules/{scheduleId}/comments")
     public ApiResponse<CommentDetailResponse> createComment(@PathVariable Long scheduleId,
                                                             @Valid @RequestBody CommentCreateRequest requestDto,
-                                                            @SessionUserId Long userId
+                                                            @SessionUser User user
     ) {
 
-        CommentDetailResponse responseDto = commentService.createComment(scheduleId, requestDto, userId);
+        CommentDetailResponse responseDto = commentService.createComment(scheduleId, requestDto, user);
         return ApiResponse.created(responseDto);
     }
 
@@ -49,14 +50,14 @@ public class CommentController {
     @PatchMapping("/comments/{commentId}")
     public ApiResponse<CommentDetailResponse> updateComment(@PathVariable Long commentId,
                                                             @Valid @RequestBody CommentUpdateRequest requestDto,
-                                                            @SessionUserId Long userId) {
-        CommentDetailResponse responseDto = commentService.updateComment(commentId, requestDto, userId);
+                                                            @SessionUser User user) {
+        CommentDetailResponse responseDto = commentService.updateComment(commentId, requestDto, user);
         return ApiResponse.ok(responseDto);
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public ApiResponse<Void> deleteComment(@PathVariable Long commentId, @SessionUserId Long userId) {
-        commentService.deleteComment(commentId, userId);
+    public ApiResponse<Void> deleteComment(@PathVariable Long commentId, @SessionUser User user) {
+        commentService.deleteComment(commentId, user);
         return ApiResponse.ok();
     }
 }

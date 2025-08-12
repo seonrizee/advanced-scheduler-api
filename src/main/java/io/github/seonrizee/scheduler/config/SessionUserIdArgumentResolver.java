@@ -1,7 +1,9 @@
 package io.github.seonrizee.scheduler.config;
 
-import io.github.seonrizee.scheduler.auth.SessionUserId;
+import io.github.seonrizee.scheduler.common.annotation.SessionUser;
+import io.github.seonrizee.scheduler.service.UserFinder;
 import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -15,11 +17,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class SessionUserIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final HttpSession httpSession;
+    private final UserFinder userFinder;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
 
-        boolean hasLoginUserAnnotation = parameter.hasParameterAnnotation(SessionUserId.class);
+        boolean hasLoginUserAnnotation = parameter.hasParameterAnnotation(SessionUser.class);
         boolean hasLongType = Long.class.isAssignableFrom(parameter.getParameterType());
         return hasLoginUserAnnotation && hasLongType;
     }
@@ -27,6 +30,11 @@ public class SessionUserIdArgumentResolver implements HandlerMethodArgumentResol
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return httpSession.getAttribute("userId");
+
+        Object userId = httpSession.getAttribute("userId");
+        return Optional.ofNullable(userId)
+                .map(id -> (Long) id)
+                .map(userFinder::findByIdOrThrow)
+                .orElse(null);
     }
 }

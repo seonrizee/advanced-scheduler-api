@@ -1,11 +1,12 @@
 package io.github.seonrizee.scheduler.controller;
 
-import io.github.seonrizee.scheduler.auth.SessionUserId;
+import io.github.seonrizee.scheduler.common.annotation.SessionUser;
 import io.github.seonrizee.scheduler.dto.ApiResponse;
 import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
+import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +31,9 @@ public class ScheduleController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<ScheduleDetailResponse> createSchedule(
-            @RequestBody @Valid ScheduleCreateRequest requestDto) {
+            @RequestBody @Valid ScheduleCreateRequest requestDto, User user) {
 
-        ScheduleDetailResponse responseDto = scheduleService.createSchedule(requestDto);
-
+        ScheduleDetailResponse responseDto = scheduleService.createSchedule(requestDto, user);
         return ApiResponse.created(responseDto);
     }
 
@@ -41,14 +41,13 @@ public class ScheduleController {
     public ApiResponse<ScheduleDetailResponse> getSchedule(@PathVariable Long scheduleId) {
 
         ScheduleDetailResponse responseDto = scheduleService.findScheduleById(scheduleId);
-
         return ApiResponse.ok(responseDto);
     }
 
     @GetMapping
     public ApiResponse<ScheduleListResponse> getSchedules() {
 
-        ScheduleListResponse responseDto = scheduleService.findAllSchedules();
+        ScheduleListResponse responseDto = scheduleService.getSchedules();
         return ApiResponse.ok(responseDto);
     }
 
@@ -56,16 +55,16 @@ public class ScheduleController {
     public ApiResponse<ScheduleDetailResponse> updateSchedule(
             @PathVariable Long scheduleId,
             @RequestBody @Valid ScheduleUpdateRequest requestDto,
-            @SessionUserId Long userId) {
+            @SessionUser User user) {
 
-        ScheduleDetailResponse responseDto = scheduleService.updateSchedule(scheduleId, requestDto, userId);
+        ScheduleDetailResponse responseDto = scheduleService.updateSchedule(scheduleId, requestDto, user);
         return ApiResponse.ok(responseDto);
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId, @SessionUserId Long userId) {
+    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId, @SessionUser User user) {
 
-        scheduleService.deleteSchedule(scheduleId, userId);
+        scheduleService.deleteSchedule(scheduleId, user);
         return ApiResponse.ok();
     }
 }

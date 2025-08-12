@@ -23,6 +23,7 @@ public class ScheduleMapper {
                 schedule.getId(),
                 schedule.getSummary(),
                 schedule.getDescription(),
+                schedule.getUser().getId(),
                 schedule.getUser().getUsername(),
                 schedule.getCreatedAt(),
                 schedule.getUpdatedAt());

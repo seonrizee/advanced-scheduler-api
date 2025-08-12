@@ -4,16 +4,17 @@ import io.github.seonrizee.scheduler.dto.request.ScheduleCreateRequest;
 import io.github.seonrizee.scheduler.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.dto.response.ScheduleListResponse;
+import io.github.seonrizee.scheduler.entity.User;
 
 public interface ScheduleService {
 
-    ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto);
+    ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto, User user);
 
     ScheduleDetailResponse findScheduleById(Long scheduleId);
 
-    ScheduleListResponse findAllSchedules();
+    ScheduleListResponse getSchedules();
 
-    ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, Long userId);
+    ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, User user);
 
-    void deleteSchedule(Long scheduleId, Long userId);
+    void deleteSchedule(Long scheduleId, User user);
 }

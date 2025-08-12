@@ -15,5 +15,4 @@ public class ScheduleCreateRequest {
 
     @NotBlank(message = "설명은 비어있을 수 없습니다.")
     private final String description;
-    private final Long userId;
 }

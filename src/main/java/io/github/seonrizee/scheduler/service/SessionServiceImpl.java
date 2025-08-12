@@ -1,11 +1,11 @@
 package io.github.seonrizee.scheduler.service;
 
 import io.github.seonrizee.scheduler.common.code.ErrorCode;
+import io.github.seonrizee.scheduler.common.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.config.PasswordEncoderConfig;
 import io.github.seonrizee.scheduler.dto.request.SessionCreateRequest;
 import io.github.seonrizee.scheduler.dto.response.UserProfileResponse;
 import io.github.seonrizee.scheduler.entity.User;
-import io.github.seonrizee.scheduler.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.mapper.UserMapper;
 import io.github.seonrizee.scheduler.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

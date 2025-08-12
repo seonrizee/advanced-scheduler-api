@@ -1,7 +1,7 @@
 package io.github.seonrizee.scheduler.filter;
 
 import io.github.seonrizee.scheduler.common.code.ErrorCode;
-import io.github.seonrizee.scheduler.exception.CustomBusinessException;
+import io.github.seonrizee.scheduler.common.exception.CustomBusinessException;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
