@@ -22,7 +22,7 @@ public class CommentFinder {
 
     public CommentDetailResponse getComment(Long commentId) {
 
-        Comment savedComment = getCommentOrElseThrow(commentId);
+        Comment savedComment = findCommentOrElseThrow(commentId);
         return commentMapper.toDto(savedComment);
     }
 
@@ -32,7 +32,7 @@ public class CommentFinder {
         return commentMapper.toDto(commentsByScheduleId);
     }
 
-    public Comment getCommentOrElseThrow(Long commentId) {
+    public Comment findCommentOrElseThrow(Long commentId) {
         return commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomBusinessException(ErrorCode.COMMENT_NOT_FOUND));
     }

@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, User user) {
 
-        Comment savedComment = commentFinder.getCommentOrElseThrow(commentId);
+        Comment savedComment = commentFinder.findCommentOrElseThrow(commentId);
         authorizationService.validateOwnership(savedComment, user);
         savedComment.updateContent(requestDto.getContent());
         return commentMapper.toDto(savedComment);
@@ -44,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long commentId, User user) {
 
-        Comment savedComment = commentFinder.getCommentOrElseThrow(commentId);
+        Comment savedComment = commentFinder.findCommentOrElseThrow(commentId);
         authorizationService.validateOwnership(savedComment, user);
         commentRepository.delete(savedComment);
     }
