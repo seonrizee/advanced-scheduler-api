@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, User user) {
 
         Comment savedComment = commentQueryService.findCommentOrElseThrow(commentId);
-        authorizationService.validateOwnership(savedComment, user);
+        authorizationService.validateOwnership(savedComment, user, c -> c.getUser().getId());
         savedComment.updateContent(requestDto.getContent());
         return commentMapper.toDto(savedComment);
     }
@@ -50,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long commentId, User user) {
 
         Comment savedComment = commentQueryService.findCommentOrElseThrow(commentId);
-        authorizationService.validateOwnership(savedComment, user);
+        authorizationService.validateOwnership(savedComment, user, c -> c.getUser().getId());
         commentRepository.delete(savedComment);
     }
 }

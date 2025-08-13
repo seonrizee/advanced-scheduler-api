@@ -34,7 +34,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, User user) {
 
         Schedule savedSchedule = scheduleQueryService.findScheduleByIdOrThrow(scheduleId);
-        authorizationService.validateOwnership(savedSchedule, user);
+        authorizationService.validateOwnership(savedSchedule, user, s -> s.getUser().getId());
         savedSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
         return scheduleMapper.toDto(savedSchedule);
     }
@@ -43,7 +43,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void deleteSchedule(Long scheduleId, User user) {
 
         Schedule savedSchedule = scheduleQueryService.findScheduleByIdOrThrow(scheduleId);
-        authorizationService.validateOwnership(savedSchedule, user);
+        authorizationService.validateOwnership(savedSchedule, user, s -> s.getUser().getId());
         scheduleRepository.delete(savedSchedule);
     }
 }

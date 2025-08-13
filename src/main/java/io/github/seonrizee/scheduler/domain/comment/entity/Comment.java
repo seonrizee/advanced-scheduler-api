@@ -3,7 +3,6 @@ package io.github.seonrizee.scheduler.domain.comment.entity;
 import io.github.seonrizee.scheduler.domain.schedule.entity.Schedule;
 import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.global.entity.BaseDateTimeEntity;
-import io.github.seonrizee.scheduler.global.entity.Ownable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Comment extends BaseDateTimeEntity implements Ownable {
+public class Comment extends BaseDateTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
