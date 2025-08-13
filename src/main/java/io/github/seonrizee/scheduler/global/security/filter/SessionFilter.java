@@ -11,7 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -19,7 +22,10 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Component
 public class SessionFilter implements Filter {
 
-    private static final String[] excludedUrls = {"/sessions", "/users", "/error"};
+    private static final Map<String, Set<HttpMethod>> excludedEndpoints = Map.of(
+            "/sessions", Set.of(HttpMethod.POST),
+            "/users", Set.of(HttpMethod.POST),
+            "/error", Set.of(HttpMethod.GET, HttpMethod.POST));
 
     private final HandlerExceptionResolver handlerExceptionResolver;
 
@@ -33,11 +39,10 @@ public class SessionFilter implements Filter {
 
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
-        final String requestURI = httpRequest.getRequestURI();
 
         try {
-            if (!isExcluded(requestURI)) {
-                // 제외된 URL이 아닌 경우 세션 검증
+            if (!isExcluded(httpRequest)) {
+                // 제외된 URL과 메서드가 아닌 경우 세션 검증
                 HttpSession session = httpRequest.getSession(false);
                 if (session == null || session.getAttribute("userId") == null) {
                     // 세션이 없으면 예외 발생
@@ -51,7 +56,14 @@ public class SessionFilter implements Filter {
         }
     }
 
-    private boolean isExcluded(String requestURI) {
-        return PatternMatchUtils.simpleMatch(excludedUrls, requestURI);
+    private boolean isExcluded(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        HttpMethod requestMethod = HttpMethod.valueOf(request.getMethod());
+
+        return excludedEndpoints.entrySet().stream()
+                .anyMatch(entry ->
+                        PatternMatchUtils.simpleMatch(entry.getKey(), requestURI) &&
+                                entry.getValue().contains(requestMethod)
+                );
     }
 }
