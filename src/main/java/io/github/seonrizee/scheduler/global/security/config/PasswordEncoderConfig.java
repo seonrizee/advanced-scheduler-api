@@ -1,4 +1,4 @@
-package io.github.seonrizee.scheduler.global.config.security;
+package io.github.seonrizee.scheduler.global.security.config;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;

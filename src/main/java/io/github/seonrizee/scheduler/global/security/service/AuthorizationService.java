@@ -1,4 +1,4 @@
-package io.github.seonrizee.scheduler.security.service;
+package io.github.seonrizee.scheduler.global.security.service;
 
 import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.global.code.ErrorCode;

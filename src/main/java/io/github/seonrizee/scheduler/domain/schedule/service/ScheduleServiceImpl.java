@@ -7,7 +7,7 @@ import io.github.seonrizee.scheduler.domain.schedule.entity.Schedule;
 import io.github.seonrizee.scheduler.domain.schedule.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.domain.schedule.repository.ScheduleRepository;
 import io.github.seonrizee.scheduler.domain.user.entity.User;
-import io.github.seonrizee.scheduler.security.service.AuthorizationService;
+import io.github.seonrizee.scheduler.global.security.service.AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
