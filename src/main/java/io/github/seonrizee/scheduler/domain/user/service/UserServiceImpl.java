@@ -7,7 +7,7 @@ import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.domain.user.mapper.UserMapper;
 import io.github.seonrizee.scheduler.domain.user.repository.UserRepository;
 import io.github.seonrizee.scheduler.global.security.config.PasswordEncoderConfig;
-import io.github.seonrizee.scheduler.global.security.service.AuthorizationService;
+import io.github.seonrizee.scheduler.global.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserQueryService userQueryService;
     private final UserMapper userMapper;
     private final PasswordEncoderConfig passwordEncoderConfig;
-    private final AuthorizationService authorizationService;
+    private final AuthService authService;
 
     @Override
     public UserProfileResponse registerUser(UserRegisterRequest requestDto) {
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileResponse updateUserProfile(Long userId, UserUpdateRequest requestDto, User loginUser) {
         User savedUser = userQueryService.findByIdOrThrow(userId);
-        authorizationService.validateOwnership(savedUser, loginUser, User::getId);
+        authService.validateOwnership(savedUser, loginUser, User::getId);
         savedUser.updateProfile(requestDto.getUsername(), requestDto.getEmail());
         return userMapper.toDto(savedUser);
     }
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long userId, User loginUser) {
         User savedUser = userQueryService.findByIdOrThrow(userId);
-        authorizationService.validateOwnership(savedUser, loginUser, User::getId);
+        authService.validateOwnership(savedUser, loginUser, User::getId);
         userRepository.delete(savedUser);
     }
 }

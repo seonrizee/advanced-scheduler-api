@@ -11,7 +11,7 @@ import lombok.Getter;
 public class UserUpdateRequest {
 
     @NotBlank(message = "사용자 이름은 비어있을 수 없습니다.")
-    @Pattern(regexp = "^[a-zA-Z0-9]{4,15}$")
+    @Pattern(regexp = "^[a-zA-Z0-9]{4,15}$", message = "사용자 이름은 4~15자의 영문 대소문자와 숫자로만 구성되어야 합니다.")
     private final String username;
 
     @Email(message = "유효하지 않은 이메일 형식입니다.")
