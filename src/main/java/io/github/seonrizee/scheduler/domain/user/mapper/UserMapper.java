@@ -9,14 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
-    public User toEntity(UserRegisterRequest requestDto) {
-        return User.builder()
-                .username(requestDto.getUsername())
-                .email(requestDto.getEmail())
-                .password(requestDto.getPassword())
-                .build();
-    }
-
+    
     public User toEntity(UserRegisterRequest requestDto, String encodedPassword) {
         return User.builder()
                 .username(requestDto.getUsername())
