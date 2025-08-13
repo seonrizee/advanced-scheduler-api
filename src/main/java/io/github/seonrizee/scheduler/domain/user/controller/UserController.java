@@ -4,7 +4,7 @@ import io.github.seonrizee.scheduler.domain.user.dto.request.UserRegisterRequest
 import io.github.seonrizee.scheduler.domain.user.dto.request.UserUpdateRequest;
 import io.github.seonrizee.scheduler.domain.user.dto.response.UserListResponse;
 import io.github.seonrizee.scheduler.domain.user.dto.response.UserProfileResponse;
-import io.github.seonrizee.scheduler.domain.user.service.UserFinder;
+import io.github.seonrizee.scheduler.domain.user.service.UserQueryService;
 import io.github.seonrizee.scheduler.domain.user.service.UserService;
 import io.github.seonrizee.scheduler.global.dto.ApiResponse;
 import jakarta.validation.Valid;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
-    private final UserFinder userFinder;
+    private final UserQueryService userQueryService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -38,14 +38,14 @@ public class UserController {
 
     @GetMapping
     public ApiResponse<UserListResponse> getUsers() {
-        UserListResponse responseDto = userFinder.getAllUsers();
+        UserListResponse responseDto = userQueryService.getAllUsers();
         return ApiResponse.ok(responseDto);
     }
 
     @GetMapping("/{userId}")
     public ApiResponse<UserProfileResponse> getUserProfile(@PathVariable Long userId) {
 
-        UserProfileResponse responseDto = userFinder.getUserProfile(userId);
+        UserProfileResponse responseDto = userQueryService.getUserProfile(userId);
         return ApiResponse.ok(responseDto);
     }
 

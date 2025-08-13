@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserFinder userFinder;
+    private final UserQueryService userQueryService;
     private final UserMapper userMapper;
     private final PasswordEncoderConfig passwordEncoderConfig;
 
@@ -32,14 +32,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserProfileResponse updateUserProfile(Long userId, UserUpdateRequest requestDto) {
-        User existingUser = userFinder.findByIdOrThrow(userId);
+        User existingUser = userQueryService.findByIdOrThrow(userId);
         existingUser.updateProfile(requestDto.getUsername(), requestDto.getEmail());
         return userMapper.toDto(existingUser);
     }
 
     @Override
     public void deleteUser(Long userId) {
-        User existingUser = userFinder.findByIdOrThrow(userId);
+        User existingUser = userQueryService.findByIdOrThrow(userId);
         userRepository.delete(existingUser);
     }
 }

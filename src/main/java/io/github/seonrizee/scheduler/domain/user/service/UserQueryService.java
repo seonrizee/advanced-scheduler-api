@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UserFinder {
+public class UserQueryService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;

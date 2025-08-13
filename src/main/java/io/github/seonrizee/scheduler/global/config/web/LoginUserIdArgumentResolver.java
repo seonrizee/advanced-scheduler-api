@@ -1,7 +1,7 @@
 package io.github.seonrizee.scheduler.global.config.web;
 
 import io.github.seonrizee.scheduler.domain.user.entity.User;
-import io.github.seonrizee.scheduler.domain.user.service.UserFinder;
+import io.github.seonrizee.scheduler.domain.user.service.UserQueryService;
 import io.github.seonrizee.scheduler.global.annotation.LoginUser;
 import io.github.seonrizee.scheduler.global.code.ErrorCode;
 import io.github.seonrizee.scheduler.global.exception.CustomBusinessException;
@@ -20,7 +20,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class LoginUserIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final HttpSession httpSession;
-    private final UserFinder userFinder;
+    private final UserQueryService userQueryService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -39,6 +39,6 @@ public class LoginUserIdArgumentResolver implements HandlerMethodArgumentResolve
             throw new CustomBusinessException(ErrorCode.INCONSISTENT_SESSION_STATE);
         }
 
-        return userFinder.findByIdOrThrow((Long) userId);
+        return userQueryService.findByIdOrThrow((Long) userId);
     }
 }

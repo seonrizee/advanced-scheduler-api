@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
-    private final ScheduleFinder scheduleFinder;
+    private final ScheduleQueryService scheduleQueryService;
     private final ScheduleMapper scheduleMapper;
     private final AuthorizationService authorizationService;
 
@@ -33,7 +33,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, User user) {
 
-        Schedule savedSchedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
+        Schedule savedSchedule = scheduleQueryService.findScheduleByIdOrThrow(scheduleId);
         authorizationService.validateOwnership(savedSchedule, user);
         savedSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
         return scheduleMapper.toDto(savedSchedule);
@@ -42,7 +42,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public void deleteSchedule(Long scheduleId, User user) {
 
-        Schedule savedSchedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
+        Schedule savedSchedule = scheduleQueryService.findScheduleByIdOrThrow(scheduleId);
         authorizationService.validateOwnership(savedSchedule, user);
         scheduleRepository.delete(savedSchedule);
     }
