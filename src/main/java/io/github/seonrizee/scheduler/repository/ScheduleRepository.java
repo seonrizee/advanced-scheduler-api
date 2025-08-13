@@ -14,7 +14,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query("SELECT s FROM Schedule s LEFT JOIN FETCH s.comments WHERE s.id = :id")
     Optional<Schedule> findWithCommentsById(@Param("id") Long id);
 
-    @Query("""
+    @Query(value = """
             SELECT new io.github.seonrizee.scheduler.dto.response.SchedulePageResponse(s.id,
                     s.summary,
                     s.description,
@@ -28,6 +28,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             JOIN s.user u
             LEFT JOIN s.comments c
             GROUP BY s.id, u.id
-            """)
+            """,
+            countQuery = "SELECT count(s) FROM Schedule s")
     Page<SchedulePageResponse> findWithCommentCount(Pageable pageable);
 }
