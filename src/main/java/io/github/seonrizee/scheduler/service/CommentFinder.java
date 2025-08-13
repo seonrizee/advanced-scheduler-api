@@ -27,7 +27,7 @@ public class CommentFinder {
 
     public List<CommentDetailResponse> getCommentsWithSchedule(Long scheduleId) {
 
-        List<Comment> commentsByScheduleId = commentRepository.findAllByScheduleId(scheduleId);
+        List<Comment> commentsByScheduleId = commentRepository.findAllWithUserByScheduleId(scheduleId);
         return commentMapper.toDto(commentsByScheduleId);
     }
 
