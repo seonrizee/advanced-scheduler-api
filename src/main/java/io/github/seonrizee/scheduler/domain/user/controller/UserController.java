@@ -9,6 +9,7 @@ import io.github.seonrizee.scheduler.domain.user.service.UserQueryService;
 import io.github.seonrizee.scheduler.domain.user.service.UserService;
 import io.github.seonrizee.scheduler.global.annotation.LoginUser;
 import io.github.seonrizee.scheduler.global.dto.ApiResponse;
+import io.github.seonrizee.scheduler.global.security.SessionManager;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserQueryService userQueryService;
+    private final SessionManager sessionManager;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -62,6 +64,7 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ApiResponse<Void> deleteUser(@PathVariable Long userId, @LoginUser User loginUser) {
         userService.deleteUser(userId, loginUser);
+        sessionManager.logout();
         return ApiResponse.ok();
     }
 }

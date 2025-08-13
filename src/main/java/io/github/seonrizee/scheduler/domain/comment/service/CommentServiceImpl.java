@@ -9,7 +9,7 @@ import io.github.seonrizee.scheduler.domain.comment.repository.CommentRepository
 import io.github.seonrizee.scheduler.domain.schedule.entity.Schedule;
 import io.github.seonrizee.scheduler.domain.schedule.service.ScheduleQueryService;
 import io.github.seonrizee.scheduler.domain.user.entity.User;
-import io.github.seonrizee.scheduler.global.security.service.AuthorizationService;
+import io.github.seonrizee.scheduler.global.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentQueryService commentQueryService;
     private final ScheduleQueryService scheduleQueryService;
     private final CommentMapper commentMapper;
-    private final AuthorizationService authorizationService;
+    private final AuthService authService;
 
     @Override
     public CommentDetailResponse createComment(Long scheduleId, CommentCreateRequest requestDto, User user) {
@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, User user) {
 
         Comment savedComment = commentQueryService.findCommentOrElseThrow(commentId);
-        authorizationService.validateOwnership(savedComment, user, c -> c.getUser().getId());
+        authService.validateOwnership(savedComment, user, c -> c.getUser().getId());
         savedComment.updateContent(requestDto.getContent());
         return commentMapper.toDto(savedComment);
     }
@@ -50,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long commentId, User user) {
 
         Comment savedComment = commentQueryService.findCommentOrElseThrow(commentId);
-        authorizationService.validateOwnership(savedComment, user, c -> c.getUser().getId());
+        authService.validateOwnership(savedComment, user, c -> c.getUser().getId());
         commentRepository.delete(savedComment);
     }
 }
