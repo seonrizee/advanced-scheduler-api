@@ -22,7 +22,8 @@ public enum ErrorCode {
 
     // Error-General
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "EG-001", "서버 내부 오류가 발생했습니다."),
-    METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "EG-002", "입력이 잘못되었습니다. %s");
+    METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "EG-002", "입력이 잘못되었습니다. %s"),
+    INCONSISTENT_SESSION_STATE(HttpStatus.INTERNAL_SERVER_ERROR, "EG-003", "세션 상태가 일치하지 않습니다. 관리자에게 문의하세요.");
 
     private final HttpStatus httpStatus;
     private final String code;

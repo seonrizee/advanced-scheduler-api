@@ -36,7 +36,7 @@ public class LoginUserIdArgumentResolver implements HandlerMethodArgumentResolve
 
         Object userId = httpSession.getAttribute("userId");
         if (Optional.ofNullable(userId).isEmpty()) {
-            throw new CustomBusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
+            throw new CustomBusinessException(ErrorCode.INCONSISTENT_SESSION_STATE);
         }
 
         return userFinder.findByIdOrThrow((Long) userId);
