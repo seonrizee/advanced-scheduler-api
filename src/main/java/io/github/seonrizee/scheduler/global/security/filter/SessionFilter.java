@@ -1,4 +1,4 @@
-package io.github.seonrizee.scheduler.security.filter;
+package io.github.seonrizee.scheduler.global.security.filter;
 
 import io.github.seonrizee.scheduler.global.code.ErrorCode;
 import io.github.seonrizee.scheduler.global.exception.CustomBusinessException;

@@ -6,8 +6,8 @@ import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.domain.user.mapper.UserMapper;
 import io.github.seonrizee.scheduler.domain.user.repository.UserRepository;
 import io.github.seonrizee.scheduler.global.code.ErrorCode;
-import io.github.seonrizee.scheduler.global.config.security.PasswordEncoderConfig;
 import io.github.seonrizee.scheduler.global.exception.CustomBusinessException;
+import io.github.seonrizee.scheduler.global.security.config.PasswordEncoderConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

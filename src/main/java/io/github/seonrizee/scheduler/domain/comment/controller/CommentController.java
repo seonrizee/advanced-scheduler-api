@@ -3,7 +3,7 @@ package io.github.seonrizee.scheduler.domain.comment.controller;
 import io.github.seonrizee.scheduler.domain.comment.dto.request.CommentCreateRequest;
 import io.github.seonrizee.scheduler.domain.comment.dto.request.CommentUpdateRequest;
 import io.github.seonrizee.scheduler.domain.comment.dto.response.CommentDetailResponse;
-import io.github.seonrizee.scheduler.domain.comment.service.CommentFinder;
+import io.github.seonrizee.scheduler.domain.comment.service.CommentQueryService;
 import io.github.seonrizee.scheduler.domain.comment.service.CommentService;
 import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.global.annotation.LoginUser;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentService commentService;
-    private final CommentFinder commentFinder;
+    private final CommentQueryService commentQueryService;
 
     @PostMapping("/schedules/{scheduleId}/comments")
     public ApiResponse<CommentDetailResponse> createComment(@PathVariable Long scheduleId,
@@ -39,13 +39,13 @@ public class CommentController {
     @GetMapping("/schedules/{scheduleId}/comments")
     public ApiResponse<List<CommentDetailResponse>> getCommentsWithSchedule(@PathVariable Long scheduleId) {
 
-        List<CommentDetailResponse> responseDto = commentFinder.getCommentsWithSchedule(scheduleId);
+        List<CommentDetailResponse> responseDto = commentQueryService.getCommentsWithSchedule(scheduleId);
         return ApiResponse.ok(responseDto);
     }
 
     @GetMapping("/comments/{commentId}")
     public ApiResponse<CommentDetailResponse> getComment(@PathVariable Long commentId) {
-        CommentDetailResponse responseDto = commentFinder.getComment(commentId);
+        CommentDetailResponse responseDto = commentQueryService.getComment(commentId);
         return ApiResponse.ok(responseDto);
     }
 

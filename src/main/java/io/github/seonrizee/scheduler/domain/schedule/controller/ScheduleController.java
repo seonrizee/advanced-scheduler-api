@@ -4,7 +4,7 @@ import io.github.seonrizee.scheduler.domain.schedule.dto.request.ScheduleCreateR
 import io.github.seonrizee.scheduler.domain.schedule.dto.request.ScheduleUpdateRequest;
 import io.github.seonrizee.scheduler.domain.schedule.dto.response.ScheduleDetailResponse;
 import io.github.seonrizee.scheduler.domain.schedule.dto.response.SchedulePageResponse;
-import io.github.seonrizee.scheduler.domain.schedule.service.ScheduleFinder;
+import io.github.seonrizee.scheduler.domain.schedule.service.ScheduleQueryService;
 import io.github.seonrizee.scheduler.domain.schedule.service.ScheduleService;
 import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.global.annotation.LoginUser;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
-    private final ScheduleFinder scheduleFinder;
+    private final ScheduleQueryService scheduleQueryService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,7 +46,7 @@ public class ScheduleController {
     @GetMapping("/{scheduleId}")
     public ApiResponse<ScheduleDetailResponse> getSchedule(@PathVariable Long scheduleId) {
 
-        ScheduleDetailResponse responseDto = scheduleFinder.getSchedule(scheduleId);
+        ScheduleDetailResponse responseDto = scheduleQueryService.getSchedule(scheduleId);
         return ApiResponse.ok(responseDto);
     }
 
@@ -54,7 +54,7 @@ public class ScheduleController {
     public ApiResponse<Page<SchedulePageResponse>> getSchedules(
             @PageableDefault(size = 10, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<SchedulePageResponse> responseDto = scheduleFinder.getSchedules(pageable);
+        Page<SchedulePageResponse> responseDto = scheduleQueryService.getSchedules(pageable);
         return ApiResponse.ok(responseDto);
     }
 

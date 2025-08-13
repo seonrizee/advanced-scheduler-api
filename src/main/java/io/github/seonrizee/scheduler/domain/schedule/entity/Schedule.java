@@ -3,7 +3,6 @@ package io.github.seonrizee.scheduler.domain.schedule.entity;
 import io.github.seonrizee.scheduler.domain.comment.entity.Comment;
 import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.global.entity.BaseDateTimeEntity;
-import io.github.seonrizee.scheduler.global.entity.Ownable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Schedule extends BaseDateTimeEntity implements Ownable {
+public class Schedule extends BaseDateTimeEntity {
 
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)

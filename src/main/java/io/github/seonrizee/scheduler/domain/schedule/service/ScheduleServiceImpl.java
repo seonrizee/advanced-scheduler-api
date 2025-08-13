@@ -7,7 +7,7 @@ import io.github.seonrizee.scheduler.domain.schedule.entity.Schedule;
 import io.github.seonrizee.scheduler.domain.schedule.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.domain.schedule.repository.ScheduleRepository;
 import io.github.seonrizee.scheduler.domain.user.entity.User;
-import io.github.seonrizee.scheduler.security.service.AuthorizationService;
+import io.github.seonrizee.scheduler.global.security.service.AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
-    private final ScheduleFinder scheduleFinder;
+    private final ScheduleQueryService scheduleQueryService;
     private final ScheduleMapper scheduleMapper;
     private final AuthorizationService authorizationService;
 
@@ -33,8 +33,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, User user) {
 
-        Schedule savedSchedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
-        authorizationService.validateOwnership(savedSchedule, user);
+        Schedule savedSchedule = scheduleQueryService.findScheduleByIdOrThrow(scheduleId);
+        authorizationService.validateOwnership(savedSchedule, user, s -> s.getUser().getId());
         savedSchedule.updateDetail(requestDto.getSummary(), requestDto.getDescription());
         return scheduleMapper.toDto(savedSchedule);
     }
@@ -42,8 +42,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public void deleteSchedule(Long scheduleId, User user) {
 
-        Schedule savedSchedule = scheduleFinder.findScheduleByIdOrThrow(scheduleId);
-        authorizationService.validateOwnership(savedSchedule, user);
+        Schedule savedSchedule = scheduleQueryService.findScheduleByIdOrThrow(scheduleId);
+        authorizationService.validateOwnership(savedSchedule, user, s -> s.getUser().getId());
         scheduleRepository.delete(savedSchedule);
     }
 }

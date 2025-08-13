@@ -1,6 +1,6 @@
 package io.github.seonrizee.scheduler.global.config.web;
 
-import io.github.seonrizee.scheduler.security.filter.SessionFilter;
+import io.github.seonrizee.scheduler.global.security.filter.SessionFilter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
