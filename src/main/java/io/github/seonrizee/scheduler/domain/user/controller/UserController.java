@@ -4,8 +4,10 @@ import io.github.seonrizee.scheduler.domain.user.dto.request.UserRegisterRequest
 import io.github.seonrizee.scheduler.domain.user.dto.request.UserUpdateRequest;
 import io.github.seonrizee.scheduler.domain.user.dto.response.UserListResponse;
 import io.github.seonrizee.scheduler.domain.user.dto.response.UserProfileResponse;
+import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.domain.user.service.UserQueryService;
 import io.github.seonrizee.scheduler.domain.user.service.UserService;
+import io.github.seonrizee.scheduler.global.annotation.LoginUser;
 import io.github.seonrizee.scheduler.global.dto.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -51,14 +53,15 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public ApiResponse<UserProfileResponse> updateUserProfile(@PathVariable Long userId,
-                                                              @RequestBody @Valid UserUpdateRequest requestDto) {
-        UserProfileResponse responseDto = userService.updateUserProfile(userId, requestDto);
+                                                              @RequestBody @Valid UserUpdateRequest requestDto,
+                                                              @LoginUser User loginUser) {
+        UserProfileResponse responseDto = userService.updateUserProfile(userId, requestDto, loginUser);
         return ApiResponse.ok(responseDto);
     }
 
     @DeleteMapping("/{userId}")
-    public ApiResponse<Void> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
+    public ApiResponse<Void> deleteUser(@PathVariable Long userId, @LoginUser User loginUser) {
+        userService.deleteUser(userId, loginUser);
         return ApiResponse.ok();
     }
 }
