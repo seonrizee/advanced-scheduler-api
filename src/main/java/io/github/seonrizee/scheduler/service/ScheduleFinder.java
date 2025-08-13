@@ -7,8 +7,8 @@ import io.github.seonrizee.scheduler.dto.response.SchedulePageResponse;
 import io.github.seonrizee.scheduler.entity.Schedule;
 import io.github.seonrizee.scheduler.mapper.ScheduleMapper;
 import io.github.seonrizee.scheduler.repository.ScheduleRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +27,9 @@ public class ScheduleFinder {
         return scheduleMapper.toDto(schedule);
     }
 
-    public List<SchedulePageResponse> getSchedules(Pageable pageable) {
+    public Page<SchedulePageResponse> getSchedules(Pageable pageable) {
 
-        return scheduleRepository
-                .findWithCommentCount(pageable)
-                .getContent();
+        return scheduleRepository.findWithCommentCount(pageable);
     }
 
     public Schedule findScheduleByIdOrThrow(Long scheduleId) {

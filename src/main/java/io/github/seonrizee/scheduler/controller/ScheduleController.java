@@ -10,8 +10,8 @@ import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.service.ScheduleFinder;
 import io.github.seonrizee.scheduler.service.ScheduleService;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -51,10 +51,10 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ApiResponse<List<SchedulePageResponse>> getSchedules(
+    public ApiResponse<Page<SchedulePageResponse>> getSchedules(
             @PageableDefault(size = 10, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<SchedulePageResponse> responseDto = scheduleFinder.getSchedules(pageable);
+        Page<SchedulePageResponse> responseDto = scheduleFinder.getSchedules(pageable);
         return ApiResponse.ok(responseDto);
     }
 
