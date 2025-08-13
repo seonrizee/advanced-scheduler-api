@@ -30,7 +30,7 @@ public class Comment extends BaseDateTimeEntity implements Ownable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id", nullable = false)
     private Schedule schedule;
@@ -45,13 +45,8 @@ public class Comment extends BaseDateTimeEntity implements Ownable {
     public void updateContent(String content) {
         this.content = content;
     }
-
-    @Override
-    public User getUser() {
-        return user;
-    }
-
-    public void setSchedule(Schedule schedule) {
+    
+    void updateSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
 }

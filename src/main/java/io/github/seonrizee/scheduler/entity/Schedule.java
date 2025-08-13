@@ -58,11 +58,6 @@ public class Schedule extends BaseDateTimeEntity implements Ownable {
 
     public void addComment(Comment comment) {
         comments.add(comment);
-        comment.setSchedule(this);
-    }
-
-    @Override
-    public User getUser() {
-        return user;
+        comment.updateSchedule(this);
     }
 }
