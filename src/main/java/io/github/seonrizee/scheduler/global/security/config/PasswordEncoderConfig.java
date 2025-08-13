@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 public class PasswordEncoderConfig {
 
     public String encode(String rawPassword) {
-        return BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, rawPassword.toCharArray());
+        final int DEFAULT_COST = 12;
+        return BCrypt.withDefaults().hashToString(DEFAULT_COST, rawPassword.toCharArray());
     }
 
     public boolean matches(String rawPassword, String encodedPassword) {
