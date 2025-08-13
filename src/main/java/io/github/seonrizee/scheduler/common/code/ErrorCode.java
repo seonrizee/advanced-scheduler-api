@@ -21,8 +21,8 @@ public enum ErrorCode {
     NO_PERMISSION(HttpStatus.FORBIDDEN, "EU-004", "권한이 없습니다."),
 
     // Error-General
-    METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "EG-001", "입력이 잘못되었습니다. %s"),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "EG-002", "서버 오류입니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "EG-001", "서버 내부 오류가 발생했습니다."),
+    METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "EG-002", "입력이 잘못되었습니다. %s");
 
     private final HttpStatus httpStatus;
     private final String code;

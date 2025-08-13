@@ -1,6 +1,8 @@
 package io.github.seonrizee.scheduler.config;
 
 import io.github.seonrizee.scheduler.common.annotation.LoginUser;
+import io.github.seonrizee.scheduler.common.code.ErrorCode;
+import io.github.seonrizee.scheduler.common.exception.CustomBusinessException;
 import io.github.seonrizee.scheduler.entity.User;
 import io.github.seonrizee.scheduler.service.UserFinder;
 import jakarta.servlet.http.HttpSession;
@@ -33,10 +35,10 @@ public class LoginUserIdArgumentResolver implements HandlerMethodArgumentResolve
                                 NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
         Object userId = httpSession.getAttribute("userId");
-        System.out.println("resolver userId = " + userId);
-        return Optional.ofNullable(userId)
-                .map(id -> (Long) id)
-                .map(userFinder::findByIdOrThrow)
-                .orElse(null);
+        if (Optional.ofNullable(userId).isEmpty()) {
+            throw new CustomBusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+
+        return userFinder.findByIdOrThrow((Long) userId);
     }
 }
