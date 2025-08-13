@@ -15,15 +15,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<Schedule> findWithCommentsById(@Param("id") Long id);
 
     @Query(value = """
-            SELECT new io.github.seonrizee.scheduler.domain.schedule.dto.response.SchedulePageResponse(s.id,
-                    s.summary,
-                    s.description,
-                    COUNT(c),
-                    u.id,
-                    u.username,
-                    s.createdAt,
-                    s.updatedAt
-            )
+            SELECT s.id AS id,
+                    s.summary AS summary,
+                    s.description AS description,
+                    COUNT(c) AS commentCount,
+                    u.id AS userId,
+                    u.username AS username,
+                    s.createdAt AS createdAt,
+                    s.updatedAt AS updatedAt
             FROM Schedule s
             JOIN s.user u
             LEFT JOIN s.comments c

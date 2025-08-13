@@ -1,19 +1,19 @@
 package io.github.seonrizee.scheduler.domain.schedule.dto.response;
 
-import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+public interface SchedulePageResponse {
+    Long getId();
 
-@Getter
-@AllArgsConstructor
-public class SchedulePageResponse {
+    String getSummary();
 
-    private final Long id;
-    private final String summary;
-    private final String description;
-    private final Long commentCount;
-    private final Long userId;
-    private final String username;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
+    String getDescription();
+
+    Long getCommentCount();
+
+    Long getUserId();
+
+    String getUsername();
+
+    java.time.LocalDateTime getCreatedAt();
+
+    java.time.LocalDateTime getUpdatedAt();
 }
