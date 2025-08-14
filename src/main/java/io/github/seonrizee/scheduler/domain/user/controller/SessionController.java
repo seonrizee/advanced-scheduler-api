@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 세션 관련 API를 제공하는 컨트롤러 (로그인/로그아웃).
+ */
 @RestController
 @RequestMapping("/sessions")
 @RequiredArgsConstructor
@@ -22,6 +25,12 @@ public class SessionController {
     private final AuthService authService;
     private final SessionManager sessionManager;
 
+    /**
+     * 새로운 세션을 생성합니다 (로그인).
+     * @param requestDto 세션 생성 요청 데이터
+     * @param request HttpServletRequest
+     * @return 로그인한 사용자의 프로필 정보
+     */
     @PostMapping
     public ApiResponse<UserProfileResponse> createSession(@RequestBody @Valid SessionCreateRequest requestDto,
                                                           HttpServletRequest request) {
@@ -31,6 +40,11 @@ public class SessionController {
         return ApiResponse.ok(userProfileResponse);
     }
 
+    /**
+     * 현재 세션을 종료합니다 (로그아웃).
+     * @param request HttpServletRequest
+     * @return 성공 응답
+     */
     @DeleteMapping
     public ApiResponse<Void> deleteSession(HttpServletRequest request) {
 

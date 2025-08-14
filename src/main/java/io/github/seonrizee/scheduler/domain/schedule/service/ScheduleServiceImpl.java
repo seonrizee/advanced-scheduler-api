@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * ScheduleService의 구현체.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -22,6 +25,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleMapper scheduleMapper;
     private final AuthService authService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScheduleDetailResponse createSchedule(ScheduleCreateRequest requestDto, User user) {
 
@@ -30,6 +36,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScheduleDetailResponse updateSchedule(Long scheduleId, ScheduleUpdateRequest requestDto, User user) {
 
@@ -39,6 +48,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleMapper.toDto(savedSchedule);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteSchedule(Long scheduleId, User user) {
 

@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * CommentService의 구현체.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -25,6 +28,9 @@ public class CommentServiceImpl implements CommentService {
     private final CommentMapper commentMapper;
     private final AuthService authService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommentDetailResponse createComment(Long scheduleId, CommentCreateRequest requestDto, User user) {
 
@@ -37,6 +43,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CommentDetailResponse updateComment(Long commentId, CommentUpdateRequest requestDto, User user) {
 
@@ -46,6 +55,9 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.toDto(savedComment);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteComment(Long commentId, User user) {
 

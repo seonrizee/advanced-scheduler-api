@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * UserService의 구현체.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -23,6 +26,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoderConfig passwordEncoderConfig;
     private final AuthService authService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UserProfileResponse registerUser(UserRegisterRequest requestDto) {
 
@@ -32,6 +38,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UserProfileResponse updateUserProfile(Long userId, UserUpdateRequest requestDto, User loginUser) {
         User savedUser = userQueryService.findByIdOrThrow(userId);
@@ -40,6 +49,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(savedUser);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteUser(Long userId, User loginUser) {
         User savedUser = userQueryService.findByIdOrThrow(userId);

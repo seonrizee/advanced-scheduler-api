@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+/**
+ * 에러 코드를 정의하는 열거형.
+ */
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
@@ -25,10 +28,25 @@ public enum ErrorCode {
     METHOD_ARGUMENT_NOT_VALID(HttpStatus.BAD_REQUEST, "EG-002", "입력이 잘못되었습니다. %s"),
     INCONSISTENT_SESSION_STATE(HttpStatus.INTERNAL_SERVER_ERROR, "EG-003", "세션 상태가 일치하지 않습니다. 관리자에게 문의하세요.");
 
+    /**
+     * HTTP 상태 코드.
+     */
     private final HttpStatus httpStatus;
+    /**
+     * 에러 코드.
+     */
     private final String code;
+    /**
+     * 에러 메시지.
+     */
     private final String message;
 
+    /**
+     * 메시지 포맷팅.
+     *
+     * @param args 포맷 인자
+     * @return 포맷팅된 메시지
+     */
     public String getMessage(String... args) {
         return String.format(this.message, (Object[]) args);
     }
