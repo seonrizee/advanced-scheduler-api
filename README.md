@@ -318,7 +318,7 @@ advanced-scheduler-api/
 - Headers
 
   | **Key** | **Value** |
-          | --- | --- |
+                            | --- | --- |
   | Cookie | JSESSIONID=641622029B46698DC998950F12AFAE78 |
 
 **일정 생성**
@@ -943,9 +943,15 @@ advanced-scheduler-api/
 
 # 6. 회고
 
-## 6.1 트러블 슈팅 및 회고
+[전체 회고 페이지 보러가기](https://seonrizee.github.io/blog/2025-08-14-ch3-adv-schedule-api/)
 
-## 6.2 개선 과제
+- 여러 곳에서 의존하는 findByIdOrElseThrow() 의 위치
+- 댓글 관련 기능의 API를 RESTful하게 설계하기
+- 반복되는 권한 검사를 없애보기
+- 현재 사용자 정보를 얻기 위해 필요한 과정을 추상화해보기
+- JPA 연관 관계: @ManyToOne과 @OneToMany의 선택
+- 드디어 만난 N+1 문제
+- 자동 생성되는 카운트 쿼리 최적화
 
 # **7. 브랜치 전략 및 커밋 컨벤션**
 
