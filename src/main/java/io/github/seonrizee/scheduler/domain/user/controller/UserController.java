@@ -2,7 +2,6 @@ package io.github.seonrizee.scheduler.domain.user.controller;
 
 import io.github.seonrizee.scheduler.domain.user.dto.request.UserRegisterRequest;
 import io.github.seonrizee.scheduler.domain.user.dto.request.UserUpdateRequest;
-import io.github.seonrizee.scheduler.domain.user.dto.response.UserListResponse;
 import io.github.seonrizee.scheduler.domain.user.dto.response.UserProfileResponse;
 import io.github.seonrizee.scheduler.domain.user.entity.User;
 import io.github.seonrizee.scheduler.domain.user.service.UserQueryService;
@@ -11,6 +10,7 @@ import io.github.seonrizee.scheduler.global.annotation.LoginUser;
 import io.github.seonrizee.scheduler.global.dto.ApiResponse;
 import io.github.seonrizee.scheduler.global.security.SessionManager;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ApiResponse<UserListResponse> getUsers() {
-        UserListResponse responseDto = userQueryService.getAllUsers();
+    public ApiResponse<List<UserProfileResponse>> getUsers() {
+        List<UserProfileResponse> responseDto = userQueryService.getAllUsers();
         return ApiResponse.ok(responseDto);
     }
 
